@@ -11,9 +11,9 @@ bot = telebot.TeleBot('952476420:AAHOxzyLhPslDRyRMaxGY2YTZN-ZlGrpwIU')
 def start_message(message):
     start = telebot.types.ReplyKeyboardMarkup(True, False)
     start.row('Wunderlist')
-    start.row('Telegraph')
+    start.add('Telegraph')
     start.row('Погода')
-    start.row('Контакты')
+    start.insert('Контакты')
     bot.send_message(message.from_user.id, 'Выбери сервис', reply_markup=start)
 
 bot.polling()
