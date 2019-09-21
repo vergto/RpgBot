@@ -101,9 +101,11 @@ def get_text_messages(message):
         else:
             bot.send_message(message.from_user.id, "Привет, " + str(rows[0][2]) + ", чем я могу тебе помочь?")
     elif (message.text == "/help" or message.text == "помощь" or message.text == "Помощь"):
-        bot.send_message(message.from_user.id, 'Вот что я могу: \n Напиши мне: курс - я скажу текущий курс валют' \
-      '\n брать ли зонт - скажу о текущей погоде \n' \
-      'переведи - переведу текст\n рождаемость - пришлю статистику рождаемости в Москве')
+        bot.send_message(message.from_user.id, 'Смотри что я могу: \n'\
+        'Напиши мне: курс - я скажу текущий курс валют' \
+        '\n брать ли зонт - скажу о текущей погоде \n' \
+        'переведи - переведу текст\n'\
+        'рождаемость - пришлю статистику рождаемости в Москве')
     elif (message.text == "переведи" or message.text == "Переведи"):
         message=bot.send_message(message.from_user.id, "Введи фразу")
         try:
