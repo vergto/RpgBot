@@ -15,7 +15,18 @@ bot = telebot.TeleBot('952476420:AAHOxzyLhPslDRyRMaxGY2YTZN-ZlGrpwIU')
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.send_message(message.chat.id, 'Привет, ты написал мне /start')
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    keyboard.add(*[types.KeyboardButton(name) for name in ["Шерлок Холмс", "Доктор Ватсон"]])
+    msg = bot.send_message(m.chat.id, "Кого выбираешь?", reply_markup - keyboard)
+    bot.register_next_step_handler(msg, name)
+
+# bot.send_message(message.chat.id, 'Привет, ты написал мне /start')
+
+def name(m):
+    if m. text == "Шерлок Холмс":
+        # делаем что-нибудь интересное
+    elif m.text == "Доктор Ватсон":
+        # и ещё что-нибудь
 
 def trans(message):
     eng_text=message.text
