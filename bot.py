@@ -11,8 +11,12 @@ def start_message(message):
     start = telebot.types.ReplyKeyboardMarkup(True, False)
     itembtna = telebot.types.KeyboardButton('Бой')
     itembtnb = telebot.types.KeyboardButton('Профиль')
+    itembtnc = telebot.types.KeyboardButton('Инвентарь')
+    itembtnd = telebot.types.KeyboardButton('Войти')
+    itembtne = telebot.types.KeyboardButton('Прокачать')
     start.row(itembtna, itembtnb)
-    bot.send_message(message.from_user.id, "Choose one letter:", reply_markup=start)
+    start.row(itembtnc, itembtnd, itembtne)
+    bot.send_message(message.from_user.id, "Выбери действие:", reply_markup=start)
 
     # start.row('Бой')
     # start.row('Профиль')
