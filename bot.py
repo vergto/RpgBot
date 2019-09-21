@@ -10,11 +10,11 @@ bot = telebot.TeleBot('952476420:AAHOxzyLhPslDRyRMaxGY2YTZN-ZlGrpwIU')
 @bot.message_handler(commands=['start'])
 def start_message(message):
     start = telebot.types.ReplyKeyboardMarkup(True, False)
-    start.row('Wunderlist')
-    start.row('Telegraph')
-    start.row('Погода')
-    start.row('Контакты')
-    bot.send_message(message.from_user.id, 'Выбери сервис', reply_markup=start)
+    start.row('Бой')
+    start.row('Профиль')
+    start.row('Инвентарь')
+    start.row('Войти')
+    bot.send_message(message.from_user.id, 'Выбери действие', reply_markup=start)
 
 bot.polling()
 
