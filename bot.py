@@ -98,15 +98,15 @@ def users_up_stats(message):
         up_stats.row(itembtna, itembtnb, itembtnc)
         up_stats.row(itembtnd, itembtne, itembtnf)
 
-def rearwards()
-    rear = telebot.types.ReplyKeyboardMarkup(True, False)
+def rearwards(message)
+    re = telebot.types.ReplyKeyboardMarkup(True, False)
     itembtna = telebot.types.KeyboardButton('Бой ⚔')
     itembtnb = telebot.types.KeyboardButton('Профиль 🎫')
     itembtnc = telebot.types.KeyboardButton('Инвентарь 🎒')
     itembtnd = telebot.types.KeyboardButton('В гильдию 🏰')
     itembtne = telebot.types.KeyboardButton('Прокачать 🏅')
-    rear.row(itembtna, itembtnb)
-    rear.row(itembtnc, itembtnd, itembtne)
+    re.row(itembtna, itembtnb)
+    re.row(itembtnc, itembtnd, itembtne)
 
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
@@ -128,7 +128,7 @@ def get_text_messages(message):
     elif message.text == "Прокачать 🏅" or message.text == "Прокачать" or message.text == "прокачать":
         bot.callback_query_handler(users_up_stats(message))
     elif message.text == "Назад" or message.text == "назад":
-        bot.callback_query_handler(rearwards())
+        bot.callback_query_handler(rearwards(message))
 
 
     # start.row('Бой')
