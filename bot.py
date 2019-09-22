@@ -55,7 +55,8 @@ def hello(message):
     with users:
         cur = users.cursor()
         cur.execute("""INSERT INTO Users VALUES(?,?,?,?,?,?,?);""",
-                    (str(message.from_user.id), str(name), str(message.text), str('5'), str('5'), str('5'), str('5'), str('5')))
+                    (str(message.from_user.id), str(name), str(message.text),
+                     str('5'), str('5'), str('5'), str('5'), str('5')))
     cur.close()
 
 @bot.message_handler(content_types=['text'])
@@ -72,7 +73,6 @@ def get_text_messages(message):
             message = bot.send_message(message.from_user.id, "Как к тебе обращаться?")
             bot.register_next_step_handler(message, hello)
         else:
-            bot.send_message(message.from_user.id, "Привет, " + str(rows[0][1]) + ", чем я могу тебе помочь?")
             bot.send_message(message.from_user.id, "Привет, " + str(rows[0][2]) + ", чем я могу тебе помочь?")
     elif (message.text == "Пользователи" or message.text == "пользователи"):
         bot.callback_query_handler(users_list(message))
