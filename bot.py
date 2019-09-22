@@ -71,8 +71,8 @@ def users_window(message):
     if rows == []:
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые.")
     else:
-        bot.send_message(message.from_user.id, "Профиль игрока: " + str(rows[0][1]) + "\n\n" \
-                                                "Уровень: " + str(rows[0][8]) + "\n" \
+        bot.send_message(message.from_user.id, "Профиль игрока: " + str(rows[0][1]) + "\n" \
+                                                "Уровень: " + str(rows[0][8]) + "\n\n" \
                                                 "💪 Сила: " + str(rows[0][2]) + "\n" \
                                                 "📚 Интелект: " + str(rows[0][3]) + "\n" \
                                                 "🤸 ‍Ловкость: " + str(rows[0][4]) + "\n" \
@@ -122,6 +122,8 @@ def users_up_stats_inc(message):
         cur = users.cursor()
         cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
         rows = cur.fetchall()
+        price_stats_inc = 100 * rows[0][8]
+        bot.send_message(message.from_user.id, "Стоимость прокачки: " + str(price_stats_inc) + "💰")
         if message.text == "💪 Сила" or message.text == "Сила":
             type_stat = "Strength"
         elif message.text == "📚 Интелект" or message.text == "Интелект":
