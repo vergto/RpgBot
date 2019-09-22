@@ -52,8 +52,8 @@ def hello(message):
     name = message.from_user.first_name
     with users:
         cur = users.cursor()
-        cur.execute("""INSERT INTO Users VALUES(?,?,?);""",
-                    (str(message.from_user.id), str(name), str(message.text)))
+        cur.execute("""INSERT INTO Users VALUES(?,?,?,?,?,?,?);""",
+                    (str(message.from_user.id), str(name), str(message.text), str('5'), str('5'), str('5'), str('5')))
     cur.close()
 
 @bot.message_handler(content_types=['text'])
