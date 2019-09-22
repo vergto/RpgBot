@@ -157,8 +157,8 @@ def users_up_stats_inc(message):
      if rows == []:
          bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
      else:
-        battle_monster = random.choice(['Крыса', 'Гоблин', 'Паук'])
-        bot.send_message(message.from_user.id, "на вас напал" + str(battle_monster) )
+        random_battle_monster = random.SystemRandom().choice(["Крыса", "Гоблин", "Паук"])
+        bot.send_message(message.from_user.id, "на вас напал" + str(random_battle_monster) )
 
 
 @bot.message_handler(content_types=['text'])
