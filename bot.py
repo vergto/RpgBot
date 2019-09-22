@@ -29,6 +29,7 @@ def hello(message):
                     (str(message.from_user.id), str(name), str('5'), str('5'), str('5'), str('5'), str('5')))
     cur.close()
 
+
 @bot.message_handler(commands=['start'])
 def start_message(message):
     start = telebot.types.ReplyKeyboardMarkup(True, False)
@@ -49,6 +50,7 @@ def start_message(message):
     if rows == []:
         bot.callback_query_handler(hello(message))
 
+
 def users_list(message):
     users = sqlite3.connect("users.db")
     with users:
@@ -57,7 +59,6 @@ def users_list(message):
         rows = cur.fetchall()
         for row in rows:
             bot.send_message(message.from_user.id, str(row))
-
 
 
 def users_window(message):
@@ -76,6 +77,7 @@ def users_window(message):
                              "🤸 ‍Ловкость: " + str(rows[0][4]) +"\n"\
                              "🧘 ‍Выносливость: " + str(rows[0][5]) +"\n"\
                              "🎯 Удача: " + str(rows[0][6]))
+
 
 def users_up_stats(message):
     users = sqlite3.connect("users.db")
@@ -99,6 +101,18 @@ def users_up_stats(message):
         bot.send_message(message.from_user.id,  "Что желаете прокачать " + str(rows[0][1]) +"?\n", reply_markup=up_stats)
 
 
+def rearwards(message):
+    rearw = telebot.types.ReplyKeyboardMarkup(True, False)
+    itembtna = telebot.types.KeyboardButton('Бой ⚔')
+    itembtnb = telebot.types.KeyboardButton('Профиль 🎫')
+    itembtnc = telebot.types.KeyboardButton('Инвентарь 🎒')
+    itembtnd = telebot.types.KeyboardButton('В гильдию 🏰')
+    itembtne = telebot.types.KeyboardButton('Прокачать 🏅')
+    rearw.row(itembtna, itembtnb)
+    rearw.row(itembtnc, itembtnd, itembtne)
+    bot.send_message(message.from_user.id, "Вы вернулись в старт", reply_markup=rearw)
+
+
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
     if message.text == "Привет" or message.text == "привет":
@@ -118,6 +132,8 @@ def get_text_messages(message):
         bot.callback_query_handler(users_window(message))
     elif message.text == "Прокачать 🏅" or message.text == "Прокачать" or message.text == "прокачать":
         bot.callback_query_handler(users_up_stats(message))
+    elif message.text == "Назад" or message.text == "назад":
+        bot.callback_query_handler(rearwards(message))
 
 
     # start.row('Бой')
