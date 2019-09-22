@@ -78,7 +78,7 @@ def get_text_messages(message):
     elif (message.text == "Пользователи" or message.text == "пользователи"):
         bot.callback_query_handler(users_list(message))
 
-    # start.row('Бой')  #
+    # start.row('Бой')  #аа 
     # start.row('Профиль')
     # start.row('Инвентарь')
     # start.row('Войти')
