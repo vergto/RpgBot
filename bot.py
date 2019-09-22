@@ -37,14 +37,6 @@ def start_message(message):
     start.row(itembtna, itembtnb)
     start.row(itembtnc, itembtnd, itembtne)
     bot.send_message(message.from_user.id, "Выбери действие:", reply_markup=start)
-    users = sqlite3.connect("users.db")
-    with users:
-        cur = users.cursor()
-        cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
-        rows = cur.fetchall()
-    cur.close()
-    if rows == []:
-        bot.register_next_step_handler(message, hello)
 
 
 
