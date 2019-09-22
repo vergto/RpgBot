@@ -69,6 +69,7 @@ def get_text_messages(message):
             bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые.")
             message = bot.send_message(message.from_user.id, "Как к тебе обращаться?")
             bot.register_next_step_handler(message, hello)
+            bot.send_message(message.from_user.id, "Привет, " + str(rows[0][2]) + ", чем я могу тебе помочь?")
         else:
             bot.send_message(message.from_user.id, "Привет, " + str(rows[0][2]) + ", чем я могу тебе помочь?")
     elif (message.text == "Пользователи" or message.text == "пользователи"):
