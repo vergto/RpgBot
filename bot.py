@@ -53,7 +53,7 @@ def start_message(message):
         rows = cur.fetchall()
     cur.close()
     if rows == []:
-        bot.register_next_step_handler("message", hello)
+        bot.register_next_step_handler(message, hello)
 
 def users_list(message):
     users = sqlite3.connect("users.db")
