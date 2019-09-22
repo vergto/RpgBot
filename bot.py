@@ -2,7 +2,7 @@ import telebot
 import requests
 import urllib.request
 import sqlite3
-import random
+
 
 # Создаем базу данных
 users = sqlite3.connect("users.db")
