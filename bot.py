@@ -71,13 +71,11 @@ def users_window(message):
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые.")
     else:
         bot.send_message(message.from_user.id, "Профиль игрока: " + str(rows[0][1]) + "\n\n" \
-                                                                                      "💪 Сила: " + str(
-            rows[0][2]) + "\n" \
-                          "📚 Интелект: " + str(rows[0][3]) + "\n" \
-                                                              "🤸 ‍Ловкость: " + str(rows[0][4]) + "\n" \
-                                                                                                   "🧘 ‍Выносливость: " + str(
-            rows[0][5]) + "\n" \
-                          "🎯 Удача: " + str(rows[0][6]))
+                                                "💪 Сила: " + str(rows[0][2]) + "\n" \
+                                                "📚 Интелект: " + str(rows[0][3]) + "\n" \
+                                                "🤸 ‍Ловкость: " + str(rows[0][4]) + "\n" \
+                                                "🧘 ‍Выносливость: " + str(rows[0][5]) + "\n" \
+                                                "🎯 Удача: " + str(rows[0][6]))
 
 
 def users_up_stats(message):
@@ -94,7 +92,7 @@ def users_up_stats(message):
         itembtna = telebot.types.KeyboardButton('💪 Сила')
         itembtnb = telebot.types.KeyboardButton('📚 Интелект')
         itembtnc = telebot.types.KeyboardButton('🤸 ‍Ловкость')
-        itembtnd = telebot.types.KeyboardButton('🧘 ‍Выносливость:')
+        itembtnd = telebot.types.KeyboardButton('🧘 ‍Выносливость')
         itembtne = telebot.types.KeyboardButton('🎯 Удача')
         itembtnf = telebot.types.KeyboardButton('Назад')
         up_stats.row(itembtna, itembtnb, itembtnc)
@@ -123,9 +121,17 @@ def users_up_stats_inc(message):
         rows = cur.fetchall()
         if message.text == "💪 Сила" or message.text == "Сила":
             type_stat = "Strength"
+        elif message.text == "📚 Интелект" or message.text == "Интелект":
+            type_stat = "intellect"
+        elif message.text == "🤸 ‍Ловкость" or message.text == "‍Ловкость":
+            type_stat = "Agility"
+        elif message.text == "🧘 ‍Выносливость" or message.text == "‍Выносливость":
+            type_stat = "Stamina"
+        elif message.text == "🎯 Удача" or message.text == "Удача":
+            type_stat = "Luck"
         cur.execute("UPDATE Users SET " + type_stat + "=" + type_stat + "+1 WHERE  Id=" + str(message.from_user.id))
         cur.close()
-    bot.send_message(message.from_user.id, "Сила повысилась")
+    bot.send_message(message.from_user.id, "Выбранная характеристика повысилась")
     bot.callback_query_handler(rearwards(message))
 
 
@@ -151,6 +157,14 @@ def get_text_messages(message):
     elif message.text == "Назад" or message.text == "назад":
         bot.callback_query_handler(rearwards(message))
     elif message.text == "💪 Сила" or message.text == "Сила":
+        bot.callback_query_handler(users_up_stats_inc(message))
+    elif message.text == "📚 Интелект" or message.text == "Интелект":
+        bot.callback_query_handler(users_up_stats_inc(message))
+    elif message.text == "🤸 ‍Ловкость" or message.text == "‍Ловкость":
+        bot.callback_query_handler(users_up_stats_inc(message))
+    elif message.text == "🧘 ‍Выносливость" or message.text == "‍Выносливость":
+        bot.callback_query_handler(users_up_stats_inc(message))
+    elif message.text == "🎯 Удача" or message.text == "Удача":
         bot.callback_query_handler(users_up_stats_inc(message))
 
     # start.row('Бой')
