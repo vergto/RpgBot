@@ -8,7 +8,7 @@ users = sqlite3.connect("users.db")
 with users:
     cur = users.cursor()
     cur.execute("DROP TABLE IF EXISTS Users")
-    cur.execute("CREATE TABLE Users(Id INT, UserName TEXT, Name TEXT, Strength, Agility, Stamina, Luck)")
+    cur.execute("CREATE TABLE Users(Id INT, UserName TEXT, Name TEXT, Strength, Intellect, Agility, Stamina, Luck)")
 cur.close()
 
 
@@ -53,7 +53,8 @@ def hello(message):
     with users:
         cur = users.cursor()
         cur.execute("""INSERT INTO Users VALUES(?,?,?,?,?,?,?);""",
-                    (str(message.from_user.id), str(name), str(message.text), str('5'), str('5'), str('5'), str('5')))
+                    (str(message.from_user.id), str(name), str(message.text),
+                     str('5'), str('5'), str('5'), str('5'), str('5')))
     cur.close()
 
 @bot.message_handler(content_types=['text'])
@@ -66,8 +67,6 @@ def get_text_messages(message):
             rows = cur.fetchall()
         cur.close()
         if rows == []:
-            bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые.")
-            message = bot.send_message(message.from_user.id, "Как к тебе обращаться?")
             bot.register_next_step_handler(message, hello)
         else:
             bot.send_message(message.from_user.id, "Привет, " + str(rows[0][1]) + ", чем я могу тебе помочь?")
