@@ -97,6 +97,7 @@ def users_up_stats(message):
         up_stats.row(itembtna, itembtnb)
         up_stats.row(itembtnc, itembtnd, itembtne)
 
+
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
     if message.text == "Привет" or message.text == "привет":
