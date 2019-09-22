@@ -55,8 +55,7 @@ def hello(message):
     with users:
         cur = users.cursor()
         cur.execute("""INSERT INTO Users VALUES(?,?,?,?,?,?,?);""",
-                    (str(message.from_user.id), str(name), str('message.text'),
-                     str('5'), str('5'), str('5'), str('5'), str('5')))
+                    (str(message.from_user.id), str(name), str('message.text'), str('5'), str('5'), str('5'), str('5'), str('5')))
     cur.close()
 
 @bot.message_handler(content_types=['text'])
@@ -78,7 +77,7 @@ def get_text_messages(message):
     elif (message.text == "Пользователи" or message.text == "пользователи"):
         bot.callback_query_handler(users_list(message))
 
-    # start.row('Бой')  #аа 
+    # start.row('Бой')  #аа
     # start.row('Профиль')
     # start.row('Инвентарь')
     # start.row('Войти')
