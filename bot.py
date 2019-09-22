@@ -114,6 +114,12 @@ def rearwards(message):
 
 
 def users_up_stats_inc(message):
+    users = sqlite3.connect("users.db")
+    with users:
+        cur = users.cursor()
+        cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
+        rows = cur.fetchall()
+        cur.close()
     bot.send_message(message.from_user.id, "Профиль игрока: " + str(rows[0][1]) + "\n\n" \
                              "💪 Сила: " + str(rows[0][2]) + "\n" \
                              "📚 Интелект: " + str(rows[0][3]) + "\n" \
