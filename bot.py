@@ -44,12 +44,8 @@ def start_message(message):
         rows = cur.fetchall()
     cur.close()
     if rows == []:
-        bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые.")
-        message = bot.send_message(message.from_user.id, "Как к тебе обращаться?")
         bot.register_next_step_handler(message, hello)
-    else:
-        bot.send_message(message.from_user.id, "Привет, " + str(rows[0][1]) + ", чем я могу тебе помочь?")
-        bot.send_message(message.from_user.id, "Привет, " + str(rows[0][2]) + ", чем я могу тебе помочь?")
+    
 
 
 def users_list(message):
