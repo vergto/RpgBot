@@ -26,6 +26,15 @@ cur.close()
 bot = telebot.TeleBot('952476420:AAHOxzyLhPslDRyRMaxGY2YTZN-ZlGrpwIU')
 
 
+def hello(message):
+    users = sqlite3.connect("users.db")
+    name = message.from_user.first_name
+    with users:
+        cur = users.cursor()
+        cur.execute("""INSERT INTO Users VALUES(?,?,?,?,?,?,?,?);""",
+                    (str(message.from_user.id), str(name), str(message.text), str('5'), str('5'), str('5'), str('5'), str('5')))
+    cur.close()
+
 @bot.message_handler(commands=['start'])
 def start_message(message):
     start = telebot.types.ReplyKeyboardMarkup(True, False)
@@ -55,14 +64,7 @@ def users_list(message):
         for row in rows:
             bot.send_message(message.from_user.id, str(row))
 
-def hello(message):
-    users = sqlite3.connect("users.db")
-    name = message.from_user.first_name
-    with users:
-        cur = users.cursor()
-        cur.execute("""INSERT INTO Users VALUES(?,?,?,?,?,?,?,?);""",
-                    (str(message.from_user.id), str(name), str(message.text), str('5'), str('5'), str('5'), str('5'), str('5')))
-    cur.close()
+
 
 def users_window(message):
     users = sqlite3.connect("users.db")
