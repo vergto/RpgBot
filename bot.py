@@ -93,8 +93,9 @@ def users_up_stats(message):
         itembtnc = telebot.types.KeyboardButton('🤸 ‍Ловкость')
         itembtnd = telebot.types.KeyboardButton('🧘 ‍Выносливость:')
         itembtne = telebot.types.KeyboardButton('🎯 Удача')
-        up_stats.row(itembtna, itembtnb)
-        up_stats.row(itembtnc, itembtnd, itembtne)
+        itembtnf = telebot.types.KeyboardButton('Назад')
+        up_stats.row(itembtna, itembtnb, itembtnc)
+        up_stats.row(itembtnd, itembtne, itembtnf)
         bot.send_message(message.from_user.id,  "Что желаете прокачать " + str(rows[0][1]) +"?\n", reply_markup=up_stats)
 
 
