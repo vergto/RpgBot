@@ -73,6 +73,20 @@ def users_window(message):
                              "🧘 ‍Выносливость: " + str(rows[0][6]) +"\n"\
                              "🎯 Удача: " + str(rows[0][7]))
 
+def users_up_stats(message):
+    users = sqlite3.connect("users.db")
+    with users:
+        cur = users.cursor()
+        cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
+        rows = cur.fetchall()
+        cur.close()
+    if rows == []:
+        bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые.")
+    else:
+        bot.send_message(message.from_user.id, "Что желаете прокачать " + str(rows[0][1]) +"?\n")
+
+
+
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
     if message.text == "Привет" or message.text == "привет":
@@ -93,11 +107,8 @@ def get_text_messages(message):
         bot.callback_query_handler(users_list(message))
     elif message.text == "Профиль" or message.text == "профиль" or message.text == "Профиль 🎫":
         bot.callback_query_handler(users_window(message))
-
-@bot.message_handler(content_types=['text'])
-def get_text_messages_1(message):
-    if message.text == "Прокачать 🏅" or message.text == "Прокачать" or message.text == "прокачать":
-        bot.send_message(message.from_user.id, "Что желаете прокачать?")
+    elif message.text == "Прокачать 🏅" or message.text == "Прокачать" or message.text == "прокачать":
+        bot.callback_query_handler(users_up_stats(message))
 
 
     # start.row('Бой')
