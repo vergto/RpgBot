@@ -9,7 +9,7 @@ with users:
     cur = users.cursor()
     cur.execute("DROP TABLE IF EXISTS Users")
     cur.execute("CREATE TABLE Users(Id INT, UserName TEXT, Strength INT, intellect INT, Agility INT, "
-                "Stamina INT, Luck INT, Gold INT, LVL INT)")
+                "Stamina INT, Luck INT, Gold INT, LVL INT, LVL_OP INT, LVL_NEED_OP INT)")
 cur.close()
 
 # git add .
@@ -24,9 +24,9 @@ def hello(message):
     name = message.from_user.first_name
     with users:
         cur = users.cursor()
-        cur.execute("""INSERT INTO Users VALUES(?,?,?,?,?,?,?,?,?);""",
+        cur.execute("""INSERT INTO Users VALUES(?,?,?,?,?,?,?,?,?,?,?);""",
                     (str(message.from_user.id), str(name), str('5'), str('5'), str('5'), str('5'), str('5'),
-                     str('1000'), str('1')))
+                     str('1000'), str('1'), str('0'), str('100')))
     cur.close()
 
 
@@ -72,7 +72,8 @@ def users_window(message):
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые.")
     else:
         bot.send_message(message.from_user.id, "Профиль игрока: " + str(rows[0][1]) + "\n" \
-                                                "Уровень: " + str(rows[0][8]) + "\n\n" \
+                                                "Уровень: " + str(rows[0][8]) + "   "\
+                                                + str(rows[0][9]) + "/" + str(rows[0][10]) + "\n\n" \
                                                 "💪 Сила: " + str(rows[0][2]) + "\n" \
                                                 "📚 Интелект: " + str(rows[0][3]) + "\n" \
                                                 "🤸 ‍Ловкость: " + str(rows[0][4]) + "\n" \
@@ -145,6 +146,11 @@ def users_up_stats_inc(message):
         cur.close()
 
 
+# def battle(message):
+#     battle_monster =
+
+
+
 
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
@@ -177,12 +183,6 @@ def get_text_messages(message):
         bot.callback_query_handler(users_up_stats_inc(message))
     elif message.text == "🎯 Удача" or message.text == "Удача":
         bot.callback_query_handler(users_up_stats_inc(message))
-
-    # start.row('Бой')
-    # start.row('Профиль')
-    # start.row('Инвентарь')
-    # start.row('Войти')
-    # bot.send_message(message.from_user.id, 'Выбери действие', reply_markup=start)
 
 
 bot.polling()
