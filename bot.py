@@ -80,6 +80,6 @@ def get_text_messages(message):
     # start.row('Инвентарь')
     # start.row('Войти')
     # bot.send_message(message.from_user.id, 'Выбери действие', reply_markup=start)
-
+    #
 bot.polling()
 
