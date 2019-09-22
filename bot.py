@@ -119,13 +119,9 @@ def users_up_stats_inc(message):
         cur = users.cursor()
         cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
         rows = cur.fetchall()
+        cur.execute("UPDATE Users SET Strength=Strength+1 WHERE  Id=" + str(message.from_user.id))
         cur.close()
-    bot.send_message(message.from_user.id, "Профиль игрока: " + str(rows[0][1]) + "\n\n" \
-                             "💪 Сила: " + str(rows[0][2]) + "\n" \
-                             "📚 Интелект: " + str(rows[0][3]) + "\n" \
-                             "🤸 ‍Ловкость: " + str(rows[0][4]) + "\n" \
-                             "🧘 ‍Выносливость: " + str(rows[0][5]) + "\n" \
-                             "🎯 Удача: " + str(rows[0][6]))
+    bot.send_message(message.from_user.id, "Сила повысилась и теперь = : " + str(rows[0][2]))
 
 
 @bot.message_handler(content_types=['text'])
