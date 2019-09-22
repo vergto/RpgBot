@@ -31,8 +31,8 @@ def hello(message):
     name = message.from_user.first_name
     with users:
         cur = users.cursor()
-        cur.execute("""INSERT INTO Users VALUES(?,?,?,?,?,?,?,?);""",
-                    (str(message.from_user.id), str(name), str(message.text), str('5'), str('5'), str('5'), str('5'), str('5')))
+        cur.execute("""INSERT INTO Users VALUES(?,?,?,?,?,?,?);""",
+                    (str(message.from_user.id), str(name), str('5'), str('5'), str('5'), str('5'), str('5')))
     cur.close()
 
 @bot.message_handler(commands=['start'])
@@ -54,6 +54,7 @@ def start_message(message):
     cur.close()
     if rows == []:
         bot.callback_query_handler(hello(message))
+        bot.send_message(message.from_user.id, "Привет, " + str(rows[0][1]) + ", чем я могу тебе помочь?")
 
 def users_list(message):
     users = sqlite3.connect("users.db")
@@ -77,11 +78,11 @@ def users_window(message):
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые.")
     else:
         bot.send_message(message.from_user.id, "Профиль игрока: " + str(rows[0][1]) +"\n\n"\
-                             "💪 Сила: " + str(rows[0][3]) +"\n"\
-                             "📚 Интелект: " + str(rows[0][4]) +"\n"\
-                             "🤸 ‍Ловкость: " + str(rows[0][5]) +"\n"\
-                             "🧘 ‍Выносливость: " + str(rows[0][6]) +"\n"\
-                             "🎯 Удача: " + str(rows[0][7]))
+                             "💪 Сила: " + str(rows[0][2]) +"\n"\
+                             "📚 Интелект: " + str(rows[0][3]) +"\n"\
+                             "🤸 ‍Ловкость: " + str(rows[0][4]) +"\n"\
+                             "🧘 ‍Выносливость: " + str(rows[0][5]) +"\n"\
+                             "🎯 Удача: " + str(rows[0][6]))
 
 def users_up_stats(message):
     users = sqlite3.connect("users.db")
@@ -112,7 +113,6 @@ def get_text_messages(message):
             bot.register_next_step_handler(message, hello)
         else:
             bot.send_message(message.from_user.id, "Привет, " + str(rows[0][1]) + ", чем я могу тебе помочь?")
-            bot.send_message(message.from_user.id, "Привет, " + str(rows[0][2]))
     elif message.text == "Пользователи" or message.text == "пользователи":
         bot.callback_query_handler(users_list(message))
     elif message.text == "Профиль" or message.text == "профиль" or message.text == "Профиль 🎫":
