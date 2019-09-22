@@ -98,7 +98,7 @@ def users_up_stats(message):
         bot.send_message(message.from_user.id,  "Что желаете прокачать " + str(rows[0][1]) +"?\n", reply_markup=up_stats)
 
 
-def rearwards(message)
+def rearwards(message):
     rear = telebot.types.ReplyKeyboardMarkup(True, False)
     itembtna = telebot.types.KeyboardButton('Бой ⚔')
     itembtnb = telebot.types.KeyboardButton('Профиль 🎫')
