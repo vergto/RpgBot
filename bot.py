@@ -136,6 +136,7 @@ def users_up_stats_inc(message):
         elif message.text == "🎯 Удача" or message.text == "Удача":
             type_stat = "Luck"
         cur.execute("UPDATE Users SET " + type_stat + "=" + type_stat + "+1 WHERE  Id=" + str(message.from_user.id))
+        cur.execute("UPDATE Users SET Gold = Gold-" + str(price_stats_inc) + " WHERE  Id=" + str(message.from_user.id))
         cur.close()
     bot.send_message(message.from_user.id, "Выбранная характеристика повысилась")
     bot.callback_query_handler(rearwards(message))
