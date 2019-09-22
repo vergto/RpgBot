@@ -56,6 +56,23 @@ def hello(message):
                     (str(message.from_user.id), str(name), str(message.text), str('5'), str('5'), str('5'), str('5'), str('5')))
     cur.close()
 
+def users_window(message):
+    users = sqlite3.connect("users.db")
+    with users:
+        cur = users.cursor()
+        cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
+        rows = cur.fetchall()
+        cur.close()
+    if rows == []:
+        bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые.")
+    else:
+        bot.send_message(message.from_user.id, "Профиль игрока:" + str(rows[0][1]))
+        bot.send_message(message.from_user.id, "Сила: " + str(rows[0][3]))
+        bot.send_message(message.from_user.id, "Интелект: " + str(rows[0][4]))
+        bot.send_message(message.from_user.id, "Ловкость: " + str(rows[0][5]))
+        bot.send_message(message.from_user.id, "Выносливость: " + str(rows[0][6]))
+        bot.send_message(message.from_user.id, "Удача: " + str(rows[0][7]))
+
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
     if (message.text == "Привет" or message.text == "привет"):
@@ -71,9 +88,13 @@ def get_text_messages(message):
             bot.register_next_step_handler(message, hello)
         else:
             bot.send_message(message.from_user.id, "Привет, " + str(rows[0][1]) + ", чем я могу тебе помочь?")
-            bot.send_message(message.from_user.id, "Привет, " + str(rows[0][2]) + ", чем я могу тебе помочь?")
+            bot.send_message(message.from_user.id, "Привет, " + str(rows[0][2]))
     elif (message.text == "Пользователи" or message.text == "пользователи"):
         bot.callback_query_handler(users_list(message))
+    elif (message.text == "Профиль" or message.text == "профиль"):
+        bot.callback_query_handler(users_list(message))
+
+
 
     # start.row('Бой')
     # start.row('Профиль')
