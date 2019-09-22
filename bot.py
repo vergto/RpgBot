@@ -121,8 +121,8 @@ def users_up_stats_inc(message):
         rows = cur.fetchall()
         cur.execute("UPDATE Users SET Strength=Strength+1 WHERE  Id=" + str(message.from_user.id))
         cur.close()
-    bot.send_message(message.from_user.id, "Сила повысилась и теперь = : " + str(rows[0][2]))
-
+    bot.send_message(message.from_user.id, "Сила повысилась")
+    bot.callback_query_handler(rearwards(message))
 
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
