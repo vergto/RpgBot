@@ -110,7 +110,16 @@ def rearwards(message):
     itembtne = telebot.types.KeyboardButton('Прокачать 🏅')
     rearw.row(itembtna, itembtnb)
     rearw.row(itembtnc, itembtnd, itembtne)
-    bot.send_message(message.from_user.id, "Вы вернулись в старт", reply_markup=rearw)
+    bot.send_message(message.from_user.id, "Вы вернулись в стартовое меню", reply_markup=rearw)
+
+
+def users_up_stats_inc(message):
+    bot.send_message(message.from_user.id, "Профиль игрока: " + str(rows[0][1]) + "\n\n" \
+                             "💪 Сила: " + str(rows[0][2]) + "\n" \
+                             "📚 Интелект: " + str(rows[0][3]) + "\n" \
+                             "🤸 ‍Ловкость: " + str(rows[0][4]) + "\n" \
+                             "🧘 ‍Выносливость: " + str(rows[0][5]) + "\n" \
+                             "🎯 Удача: " + str(rows[0][6]))
 
 
 @bot.message_handler(content_types=['text'])
@@ -134,6 +143,8 @@ def get_text_messages(message):
         bot.callback_query_handler(users_up_stats(message))
     elif message.text == "Назад" or message.text == "назад":
         bot.callback_query_handler(rearwards(message))
+    elif message.text == "💪 Сила" or message.text == "Сила":
+        bot.callback_query_handler(users_up_stats_inc(message))
 
 
     # start.row('Бой')
