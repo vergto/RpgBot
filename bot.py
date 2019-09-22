@@ -89,13 +89,13 @@ def users_up_stats(message):
     else:
         bot.send_message(message.from_user.id, "Что желаете прокачать " + str(rows[0][1]) +"?\n")
         up_stats = telebot.types.ReplyKeyboardMarkup(True, False)
-        itembtna = telebot.types.KeyboardButton('💪 Сила')
-        itembtnb = telebot.types.KeyboardButton('📚 Интелект')
-        itembtnc = telebot.types.KeyboardButton('🤸 ‍Ловкость')
-        itembtnd = telebot.types.KeyboardButton('🧘 ‍Выносливость:')
-        itembtne = telebot.types.KeyboardButton('🎯 Удача')
-        up_stats.row(itembtna, itembtnb)
-        up_stats.row(itembtnc, itembtnd, itembtne)
+        up_itembtna = telebot.types.KeyboardButton('💪 Сила')
+        up_itembtnb = telebot.types.KeyboardButton('📚 Интелект')
+        up_itembtnc = telebot.types.KeyboardButton('🤸 ‍Ловкость')
+        up_itembtnd = telebot.types.KeyboardButton('🧘 ‍Выносливость:')
+        up_itembtne = telebot.types.KeyboardButton('🎯 Удача')
+        up_stats.row(up_itembtna, up_itembtnb)
+        up_stats.row(up_itembtnc, up_itembtnd, up_itembtne)
 
 
 @bot.message_handler(content_types=['text'])
