@@ -125,21 +125,26 @@ def users_up_stats_inc(message):
         rows = cur.fetchall()
         price_stats_inc = 100 * rows[0][8]
         bot.send_message(message.from_user.id, "Стоимость прокачки: " + str(price_stats_inc) + "💰")
-        if message.text == "💪 Сила" or message.text == "Сила":
-            type_stat = "Strength"
-        elif message.text == "📚 Интелект" or message.text == "Интелект":
-            type_stat = "intellect"
-        elif message.text == "🤸 ‍Ловкость" or message.text == "‍Ловкость":
-            type_stat = "Agility"
-        elif message.text == "🧘 ‍Выносливость" or message.text == "‍Выносливость":
-            type_stat = "Stamina"
-        elif message.text == "🎯 Удача" or message.text == "Удача":
-            type_stat = "Luck"
-        cur.execute("UPDATE Users SET " + type_stat + "=" + type_stat + "+1 WHERE  Id=" + str(message.from_user.id))
-        cur.execute("UPDATE Users SET Gold = Gold-" + str(price_stats_inc) + " WHERE  Id=" + str(message.from_user.id))
+        if rows[0][8] >= price_stats_inc
+            if message.text == "💪 Сила" or message.text == "Сила":
+                type_stat = "Strength"
+            elif message.text == "📚 Интелект" or message.text == "Интелект":
+                type_stat = "intellect"
+            elif message.text == "🤸 ‍Ловкость" or message.text == "‍Ловкость":
+                type_stat = "Agility"
+            elif message.text == "🧘 ‍Выносливость" or message.text == "‍Выносливость":
+                type_stat = "Stamina"
+            elif message.text == "🎯 Удача" or message.text == "Удача":
+                type_stat = "Luck"
+            cur.execute("UPDATE Users SET " + type_stat + "=" + type_stat + "+1 WHERE  Id=" + str(message.from_user.id))
+            cur.execute("UPDATE Users SET Gold = Gold-" + str(price_stats_inc) + " WHERE  Id=" + str(message.from_user.id))
+            bot.send_message(message.from_user.id, "Выбранная характеристика повысилась")
+            bot.callback_query_handler(rearwards(message))
+        else:
+            bot.send_message(message.from_user.id, "Вам не хватает денег для прокачки характеристики")
+            bot.callback_query_handler(rearwards(message))
         cur.close()
-    bot.send_message(message.from_user.id, "Выбранная характеристика повысилась")
-    bot.callback_query_handler(rearwards(message))
+
 
 
 @bot.message_handler(content_types=['text'])
