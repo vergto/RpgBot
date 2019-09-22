@@ -96,7 +96,7 @@ def users_up_stats(message):
         itembtne = telebot.types.KeyboardButton('🎯 Удача')
         up_stats.row(itembtna, itembtnb)
         up_stats.row(itembtnc, itembtnd, itembtne)
-        bot.send_message(message.from_user.id, reply_markup=up_stats)
+        bot.send_message(message.from_user.id, "Выбери действие:", reply_markup=up_stats)
 
 
 @bot.message_handler(content_types=['text'])
