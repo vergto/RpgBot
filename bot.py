@@ -94,6 +94,10 @@ def get_text_messages(message):
     elif message.text == "Профиль" or message.text == "профиль" or message.text == "Профиль 🎫":
         bot.callback_query_handler(users_window(message))
 
+@bot.message_handler(content_types=['text'])
+def get_text_messages(message):
+    if message.text == "Прокачать 🏅" or message.text == "Прокачать" or message.text == "прокачать":
+        bot.send_message(message.from_user.id, "Что желаете прокачать?")
 
 
     # start.row('Бой')
