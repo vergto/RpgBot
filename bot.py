@@ -71,10 +71,10 @@ def users_window(message):
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые.")
     else:
         bot.send_message(message.from_user.id, "Профиль игрока: " + str(rows[0][1]) +"\n\n"\
-                             "💪 Сила: " + str(rows[0][3]) +"\n"\
-                             "📚 Интелект: " + str(rows[0][4]) +"\n"\
-                             "🤸 ‍Ловкость: " + str(rows[0][5]) +"\n"\
-                             "🧘 ‍Выносливость: " + str(rows[0][6]) +"\n"\
+                             "💪 Сила: " + str(rows[0][2]) +"\n"\
+                             "📚 Интелект: " + str(rows[0][3]) +"\n"\
+                             "🤸 ‍Ловкость: " + str(rows[0][4]) +"\n"\
+                             "🧘 ‍Выносливость: " + str(rows[0][5]) +"\n"\
                              "🎯 Удача: " + str(rows[0][6]))
 
 def users_up_stats(message):
@@ -106,7 +106,6 @@ def get_text_messages(message):
             bot.register_next_step_handler(message, hello)
         else:
             bot.send_message(message.from_user.id, "Привет, " + str(rows[0][1]) + ", чем я могу тебе помочь?")
-            bot.send_message(message.from_user.id, "Привет, " + str(rows[0][2]))
     elif message.text == "Пользователи" or message.text == "пользователи":
         bot.callback_query_handler(users_list(message))
     elif message.text == "Профиль" or message.text == "профиль" or message.text == "Профиль 🎫":
