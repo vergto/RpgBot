@@ -2,6 +2,7 @@ import telebot
 import requests
 import urllib.request
 import sqlite3
+import random
 
 # Создаем базу данных
 users = sqlite3.connect("users.db")
@@ -69,7 +70,7 @@ def users_window(message):
         rows = cur.fetchall()
         cur.close()
     if rows == []:
-        bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые.")
+        bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
     else:
         bot.send_message(message.from_user.id, "Профиль игрока: " + str(rows[0][1]) + "\n" \
                                                 "Уровень: " + str(rows[0][8]) + "   "\
@@ -143,13 +144,21 @@ def users_up_stats_inc(message):
         else:
             bot.send_message(message.from_user.id, "Вам не хватает денег для прокачки характеристики")
             bot.callback_query_handler(rearwards(message))
-        cur.close()
+    cur.close()
 
 
-# def battle(message):
-#     battle_monster =
-
-
+ def battle(message):
+     users = sqlite3.connect("users.db")
+     with users:
+         cur = users.cursor()
+         cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
+         rows = cur.fetchall()
+         cur.close()
+     if rows == []:
+         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
+     else:
+        battle_monster = random.choice(['Крыса', 'Гоблин', 'Паук'])
+        bot.send_message(message.from_user.id, "на вас напал" + str(battle_monster) )
 
 
 @bot.message_handler(content_types=['text'])
