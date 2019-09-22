@@ -85,10 +85,18 @@ def users_up_stats(message):
         rows = cur.fetchall()
         cur.close()
     if rows == []:
-        bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые.")
+        bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
     else:
         bot.send_message(message.from_user.id, "Что желаете прокачать " + str(rows[0][1]) +"?\n")
-
+        up_stats = telebot.types.ReplyKeyboardMarkup(True, False)
+        itembtna = telebot.types.KeyboardButton('💪 Сила')
+        itembtnb = telebot.types.KeyboardButton('📚 Интелект')
+        itembtnc = telebot.types.KeyboardButton('🤸 ‍Ловкость')
+        itembtnd = telebot.types.KeyboardButton('🧘 ‍Выносливость:')
+        itembtne = telebot.types.KeyboardButton('🎯 Удача')
+        up_stats.row(itembtna, itembtnb)
+        up_stats.row(itembtnc, itembtnd, itembtne)
+        bot.send_message(message.from_user.id, "Выбери действие:", reply_markup=up_stats)
 
 
 @bot.message_handler(content_types=['text'])
@@ -101,9 +109,7 @@ def get_text_messages(message):
             rows = cur.fetchall()
         cur.close()
         if rows == []:
-            bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые.")
-            message = bot.send_message(message.from_user.id, "Как к тебе обращаться?")
-            bot.register_next_step_handler(message, hello)
+            bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
         else:
             bot.send_message(message.from_user.id, "Привет, " + str(rows[0][1]) + ", чем я могу тебе помочь?")
     elif message.text == "Пользователи" or message.text == "пользователи":
