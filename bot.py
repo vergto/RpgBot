@@ -8,7 +8,8 @@ users = sqlite3.connect("users.db")
 with users:
     cur = users.cursor()
     cur.execute("DROP TABLE IF EXISTS Users")
-    cur.execute("CREATE TABLE Users(Id INT, UserName TEXT, Name TEXT, Strength, intellect, Agility, Stamina, Luck)")
+    cur.execute("CREATE TABLE Users(Id INT, UserName TEXT, Name TEXT, Strength INT, intellect INT, Agility INT, "
+                "Stamina INT, Luck INT)")
 cur.close()
 
 
