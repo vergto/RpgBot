@@ -94,10 +94,19 @@ def users_up_stats(message):
         itembtnc = telebot.types.KeyboardButton('🤸 ‍Ловкость')
         itembtnd = telebot.types.KeyboardButton('🧘 ‍Выносливость:')
         itembtne = telebot.types.KeyboardButton('🎯 Удача')
-        up_stats.row(itembtna, itembtnb)
-        up_stats.row(itembtnc, itembtnd, itembtne)
-        bot.send_message(message.from_user.id, "Выбери действие:", reply_markup=up_stats)
+        itembtnf = telebot.types.KeyboardButton('Назад')
+        up_stats.row(itembtna, itembtnb, itembtnc)
+        up_stats.row(itembtnd, itembtne, itembtnf)
 
+def rearwards()
+    rearwards = telebot.types.ReplyKeyboardMarkup(True, False)
+    itembtna = telebot.types.KeyboardButton('Бой ⚔')
+    itembtnb = telebot.types.KeyboardButton('Профиль 🎫')
+    itembtnc = telebot.types.KeyboardButton('Инвентарь 🎒')
+    itembtnd = telebot.types.KeyboardButton('В гильдию 🏰')
+    itembtne = telebot.types.KeyboardButton('Прокачать 🏅')
+    rearwards.row(itembtna, itembtnb)
+    rearwards.row(itembtnc, itembtnd, itembtne)
 
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
@@ -118,6 +127,8 @@ def get_text_messages(message):
         bot.callback_query_handler(users_window(message))
     elif message.text == "Прокачать 🏅" or message.text == "Прокачать" or message.text == "прокачать":
         bot.callback_query_handler(users_up_stats(message))
+    elif message.text == "Назад" or message.text == "назад":
+        bot.callback_query_handler(rearwards())
 
 
     # start.row('Бой')
