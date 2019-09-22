@@ -147,7 +147,6 @@ def users_up_stats_inc(message):
     cur.close()
 
 
-
 def battle(message):
     users = sqlite3.connect("users.db")
     with users:
