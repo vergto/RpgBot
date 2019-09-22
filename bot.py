@@ -95,7 +95,7 @@ def get_text_messages(message):
         bot.callback_query_handler(users_window(message))
 
 @bot.message_handler(content_types=['text'])
-def get_text_messages(message):
+def get_text_messages_1(message):
     if message.text == "Прокачать 🏅" or message.text == "Прокачать" or message.text == "прокачать":
         bot.send_message(message.from_user.id, "Что желаете прокачать?")
 
