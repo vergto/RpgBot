@@ -12,7 +12,6 @@ with users:
                 "Stamina INT, Luck INT)")
 cur.close()
 
-
 # git add .
 # git commit -m "first commit"
 # git push -u origin master
@@ -71,12 +70,14 @@ def users_window(message):
     if rows == []:
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые.")
     else:
-        bot.send_message(message.from_user.id, "Профиль игрока: " + str(rows[0][1]) +"\n\n"\
-                             "💪 Сила: " + str(rows[0][2]) +"\n"\
-                             "📚 Интелект: " + str(rows[0][3]) +"\n"\
-                             "🤸 ‍Ловкость: " + str(rows[0][4]) +"\n"\
-                             "🧘 ‍Выносливость: " + str(rows[0][5]) +"\n"\
-                             "🎯 Удача: " + str(rows[0][6]))
+        bot.send_message(message.from_user.id, "Профиль игрока: " + str(rows[0][1]) + "\n\n" \
+                                                                                      "💪 Сила: " + str(
+            rows[0][2]) + "\n" \
+                          "📚 Интелект: " + str(rows[0][3]) + "\n" \
+                                                              "🤸 ‍Ловкость: " + str(rows[0][4]) + "\n" \
+                                                                                                   "🧘 ‍Выносливость: " + str(
+            rows[0][5]) + "\n" \
+                          "🎯 Удача: " + str(rows[0][6]))
 
 
 def users_up_stats(message):
@@ -98,7 +99,8 @@ def users_up_stats(message):
         itembtnf = telebot.types.KeyboardButton('Назад')
         up_stats.row(itembtna, itembtnb, itembtnc)
         up_stats.row(itembtnd, itembtne, itembtnf)
-        bot.send_message(message.from_user.id,  "Что желаете прокачать " + str(rows[0][1]) +"?\n", reply_markup=up_stats)
+        bot.send_message(message.from_user.id, "Что желаете прокачать " + str(rows[0][1]) + "?\n",
+                         reply_markup=up_stats)
 
 
 def rearwards(message):
@@ -119,10 +121,13 @@ def users_up_stats_inc(message):
         cur = users.cursor()
         cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
         rows = cur.fetchall()
-        cur.execute("UPDATE Users SET Strength=Strength+1 WHERE  Id=" + str(message.from_user.id))
+        if message.text == "💪 Сила" or message.text == "Сила":
+            type_stat = "Strength"
+        cur.execute("UPDATE Users SET " + type_stat + "=" + type_stat + "+1 WHERE  Id=" + str(message.from_user.id))
         cur.close()
     bot.send_message(message.from_user.id, "Сила повысилась")
     bot.callback_query_handler(rearwards(message))
+
 
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
@@ -148,12 +153,11 @@ def get_text_messages(message):
     elif message.text == "💪 Сила" or message.text == "Сила":
         bot.callback_query_handler(users_up_stats_inc(message))
 
-
     # start.row('Бой')
     # start.row('Профиль')
     # start.row('Инвентарь')
     # start.row('Войти')
     # bot.send_message(message.from_user.id, 'Выбери действие', reply_markup=start)
 
-bot.polling()
 
+bot.polling()
