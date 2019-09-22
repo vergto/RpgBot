@@ -66,7 +66,7 @@ def users_window(message):
     if rows == []:
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые.")
     else:
-        bot.send_message(message.from_user.id, "Профиль игрока:" + str(rows[0][1]) +"\n"\
+        bot.send_message(message.from_user.id, "Профиль игрока: " + str(rows[0][1]) +"\n\n"\
                             "Сила: " + str(rows[0][3]) +"\n"\
                              "Интелект: " + str(rows[0][4]) +"\n"\
                              "Ловкость: " + str(rows[0][5]) +"\n"\
