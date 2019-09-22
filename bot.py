@@ -147,18 +147,18 @@ def users_up_stats_inc(message):
     cur.close()
 
 
- def battle(message):
-     users = sqlite3.connect("users.db")
-     with users:
-         cur = users.cursor()
-         cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
-         rows = cur.fetchall()
-         cur.close()
-     if rows == []:
+
+def battle(message):
+    users = sqlite3.connect("users.db")
+    with users:
+        cur = users.cursor()
+        cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
+        rows = cur.fetchall()
+        cur.close()
+    if rows == []:
          bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
-     else:
-        random_battle_monster = random.SystemRandom().choice(["Крыса", "Гоблин", "Паук"])
-        bot.send_message(message.from_user.id, "на вас напал" + str(random_battle_monster) )
+    else:
+        bot.send_message(message.from_user.id, "на вас напал")
 
 
 @bot.message_handler(content_types=['text'])
