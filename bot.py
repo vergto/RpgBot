@@ -92,7 +92,7 @@ def get_text_messages(message):
     elif (message.text == "Пользователи" or message.text == "пользователи"):
         bot.callback_query_handler(users_list(message))
     elif (message.text == "Профиль" or message.text == "профиль"):
-        bot.callback_query_handler(users_list(message))
+        bot.callback_query_handler(users_window(message))
 
 
 
