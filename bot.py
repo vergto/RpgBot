@@ -124,7 +124,6 @@ def users_up_stats_inc(message):
         cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
         rows = cur.fetchall()
         price_stats_inc = 100 * rows[0][8]
-        bot.send_message(message.from_user.id, "Стоимость прокачки: " + str(price_stats_inc) + "💰")
         if rows[0][7] >= price_stats_inc:
             if message.text == "💪 Сила" or message.text == "Сила":
                 type_stat = "Strength"
