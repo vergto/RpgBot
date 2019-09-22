@@ -91,7 +91,7 @@ def get_text_messages(message):
             bot.send_message(message.from_user.id, "Привет, " + str(rows[0][2]))
     elif (message.text == "Пользователи" or message.text == "пользователи"):
         bot.callback_query_handler(users_list(message))
-    elif (message.text == "Профиль" or message.text == "профиль"):
+    elif message.text == "Профиль" or message.text == "профиль" or message.text == "Профиль 🎫":
         bot.callback_query_handler(users_window(message))
 
 
