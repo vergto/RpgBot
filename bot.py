@@ -9,7 +9,7 @@ with users:
     cur = users.cursor()
     cur.execute("DROP TABLE IF EXISTS Users")
     cur.execute("CREATE TABLE Users(Id INT, UserName TEXT, Strength INT, intellect INT, Agility INT, "
-                "Stamina INT, Luck INT)")
+                "Stamina INT, Luck INT, Gold INT)")
 cur.close()
 
 # git add .
@@ -24,8 +24,9 @@ def hello(message):
     name = message.from_user.first_name
     with users:
         cur = users.cursor()
-        cur.execute("""INSERT INTO Users VALUES(?,?,?,?,?,?,?);""",
-                    (str(message.from_user.id), str(name), str('5'), str('5'), str('5'), str('5'), str('5')))
+        cur.execute("""INSERT INTO Users VALUES(?,?,?,?,?,?,?,?);""",
+                    (str(message.from_user.id), str(name), str('5'), str('5'), str('5'), str('5'), str('5'),
+                     str('1000')))
     cur.close()
 
 
@@ -75,7 +76,8 @@ def users_window(message):
                                                 "📚 Интелект: " + str(rows[0][3]) + "\n" \
                                                 "🤸 ‍Ловкость: " + str(rows[0][4]) + "\n" \
                                                 "🧘 ‍Выносливость: " + str(rows[0][5]) + "\n" \
-                                                "🎯 Удача: " + str(rows[0][6]))
+                                                "🎯 Удача: " + str(rows[0][6]) + "\n\n" \
+                                                "💰 Золото: " + str(rows[0][7]))
 
 
 def users_up_stats(message):
