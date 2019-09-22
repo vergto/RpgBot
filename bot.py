@@ -129,7 +129,8 @@ def get_text_messages(message):
         bot.callback_query_handler(users_window(message))
     elif message.text == "Прокачать 🏅" or message.text == "Прокачать" or message.text == "прокачать":
         bot.callback_query_handler(users_up_stats(message))
-
+    elif message.text == "Назад" or message.text == "назад":
+        bot.callback_query_handler(rearwards(message))
 
     # start.row('Бой')
     # start.row('Профиль')
