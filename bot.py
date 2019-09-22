@@ -65,6 +65,7 @@ def get_text_messages(message):
             cur = users.cursor()
             cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
             rows = cur.fetchall()
+            bot.register_next_step_handler(message, hello)
         cur.close()
         if rows == []:
             bot.register_next_step_handler(message, hello)
