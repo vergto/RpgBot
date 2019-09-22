@@ -154,8 +154,8 @@ def battle(message):
         cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
         rows = cur.fetchall()
         cur.close()
-    if rows == []:
-         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
+    if not rows:
+        bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
     else:
         bot.send_message(message.from_user.id, "на вас напал")
 
