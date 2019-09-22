@@ -99,14 +99,14 @@ def users_up_stats(message):
         up_stats.row(itembtnd, itembtne, itembtnf)
 
 def rearwards()
-    rearwards = telebot.types.ReplyKeyboardMarkup(True, False)
+    rear = telebot.types.ReplyKeyboardMarkup(True, False)
     itembtna = telebot.types.KeyboardButton('Бой ⚔')
     itembtnb = telebot.types.KeyboardButton('Профиль 🎫')
     itembtnc = telebot.types.KeyboardButton('Инвентарь 🎒')
     itembtnd = telebot.types.KeyboardButton('В гильдию 🏰')
     itembtne = telebot.types.KeyboardButton('Прокачать 🏅')
-    rearwards.row(itembtna, itembtnb)
-    rearwards.row(itembtnc, itembtnd, itembtne)
+    rear.row(itembtna, itembtnb)
+    rear.row(itembtnc, itembtnd, itembtne)
 
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
