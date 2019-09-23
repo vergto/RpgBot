@@ -10,7 +10,7 @@ with users:
     cur = users.cursor()
     cur.execute("DROP TABLE IF EXISTS Users")
     cur.execute("CREATE TABLE Users(Id INT, UserName TEXT, Strength INT, intellect INT, Agility INT, "
-                "Stamina INT, Luck INT, Gold INT, LVL INT, LVL_OP INT, LVL_NEED_OP INT)")
+                "Stamina INT, Luck INT, Gold INT, LVL INT, LVL_OP INT, LVL_NEED_OP INT, HP INT, DMG INT)")
 cur.close()
 
 # git add .
@@ -25,9 +25,9 @@ def hello(message):
     name = message.from_user.first_name
     with users:
         cur = users.cursor()
-        cur.execute("""INSERT INTO Users VALUES(?,?,?,?,?,?,?,?,?,?,?);""",
+        cur.execute("""INSERT INTO Users VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);""",
                     (str(message.from_user.id), str(name), str('5'), str('5'), str('5'), str('5'), str('5'),
-                     str('1000'), str('1'), str('0'), str('100')))
+                     str('1000'), str('1'), str('0'), str('100'), str('100'), str('10')))
     cur.close()
 
 
@@ -73,14 +73,16 @@ def users_window(message):
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
     else:
         bot.send_message(message.from_user.id, "Профиль игрока: " + str(rows[0][1]) + "\n" \
-                                                "Уровень: " + str(rows[0][8]) + "   "\
-                                                + str(rows[0][9]) + "/" + str(rows[0][10]) + "\n\n" \
-                                                "💪 Сила: " + str(rows[0][2]) + "\n" \
-                                                "📚 Интелект: " + str(rows[0][3]) + "\n" \
-                                                "🤸 ‍Ловкость: " + str(rows[0][4]) + "\n" \
-                                                "🧘 ‍Выносливость: " + str(rows[0][5]) + "\n" \
-                                                "🎯 Удача: " + str(rows[0][6]) + "\n\n" \
-                                                "💰 Золото: " + str(rows[0][7]))
+                                            "Уровень: " + str(rows[0][8]) + "   " \
+                                            + str(rows[0][9]) + "/" + str(rows[0][10]) + "\n\n" \
+                                            "❤ HP: " + str(rows[0][11]) + "\n" \
+                                            "🔪 DMG: " + str(rows[0][12]) + "\n" \
+                                            "💪 Сила: " + str(rows[0][2]) + "\n" \
+                                            "📚 Интелект: " + str(rows[0][3]) + "\n" \
+                                            "🤸 ‍Ловкость: " + str(rows[0][4]) + "\n" \
+                                            "🧘 ‍Выносливость: " + str(rows[0][5]) + "\n" \
+                                            "🎯 Удача: " + str(rows[0][6]) + "\n\n" \
+                                            "💰 Золото: " + str(rows[0][7]))
 
 
 def users_up_stats(message):
@@ -138,7 +140,8 @@ def users_up_stats_inc(message):
             elif message.text == "🎯 Удача" or message.text == "Удача":
                 type_stat = "Luck"
             cur.execute("UPDATE Users SET " + type_stat + "=" + type_stat + "+1 WHERE  Id=" + str(message.from_user.id))
-            cur.execute("UPDATE Users SET Gold = Gold-" + str(price_stats_inc) + " WHERE  Id=" + str(message.from_user.id))
+            cur.execute(
+                "UPDATE Users SET Gold = Gold-" + str(price_stats_inc) + " WHERE  Id=" + str(message.from_user.id))
             bot.send_message(message.from_user.id, "Выбранная характеристика повысилась")
             bot.callback_query_handler(rearwards(message))
         else:
@@ -146,8 +149,9 @@ def users_up_stats_inc(message):
             bot.callback_query_handler(rearwards(message))
     cur.close()
 
+
 def rand_battle_monster():
-    mmm = ["паук", "Гоблин"]
+    mmm = ["Паук", "Гоблин", "Слизь", "Крыса"]
     mm = random.choice(mmm)
     return mm
 
@@ -162,7 +166,8 @@ def battle(message):
     if not rows:
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
     else:
-        bot.send_message(message.from_user.id, "на вас напал" + str(rand_battle_monster()))
+        type_monster_battle = rand_battle_monster()
+        bot.send_message(message.from_user.id, "на вас напал " + str(type_monster_battle) + "\n")
 
 
 @bot.message_handler(content_types=['text'])
