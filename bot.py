@@ -2,7 +2,7 @@ import telebot
 import requests
 import urllib.request
 import sqlite3
-
+import random
 
 # Создаем базу данных
 users = sqlite3.connect("users.db")
@@ -142,9 +142,14 @@ def users_up_stats_inc(message):
             bot.send_message(message.from_user.id, "Выбранная характеристика повысилась")
             bot.callback_query_handler(rearwards(message))
         else:
-            bot.send_message(message.from_user.id, "Вам не хватает денег для прокачки характеристики")
+            bot.send_message(message.from_user.id, "Вам не хватает ❌денег❌ для прокачки характеристики")
             bot.callback_query_handler(rearwards(message))
     cur.close()
+
+def rand_battle_monster(message):
+    mmm = ["паук", "Гоблин"]
+    random.choice(mmm)
+    bot.send_message(message.from_user.id, "на вас напал" + str(message.from_user.id))
 
 
 def battle(message):
@@ -157,7 +162,7 @@ def battle(message):
     if not rows:
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
     else:
-        bot.send_message(message.from_user.id, "на вас напал")
+        bot.send_message(message.from_user.id, "на вас напал" + str(message.from_user.id))
 
 
 @bot.message_handler(content_types=['text'])
@@ -193,6 +198,8 @@ def get_text_messages(message):
         bot.callback_query_handler(users_up_stats_inc(message))
     elif message.text == "Бой ⚔" or message.text == "Бой":
         bot.callback_query_handler(battle(message))
+    elif message.text == "Ранд":
+        bot.callback_query_handler(rand_battle_monster(message))
 
 
 bot.polling()
