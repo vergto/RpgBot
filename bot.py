@@ -179,6 +179,9 @@ def users_up_stats_inc(message):
     cur.close()
 
 
+def 
+
+
 def rand_battle_monster():
     mmm = ["Паук", "Гоблин", "Слизь", "Крыса"]
     mm = random.choice(mmm)
@@ -199,7 +202,8 @@ def fight_battle_monster(type_monster_battle,message):
         flagg = 1
     else:
         flagg = 0
-    bot.send_message(message.from_user.id, str(hero_hp) + "монстр - " + str(monster_hp))
+    bot.send_message(message.from_user.id, str(rows[0][1])+ ": " +str(hero_hp) + "❤ \n" + str(type_monster_battle)
+                     + ":" + str(monster_hp) + "❤" )
     while monster_hp >= 1 and hero_hp >= 1:
         hero_dmg = round(rows[0][12] * random.random() * 4)
         monster_dmg = round(50 + monster_lvl * random.random() * 4)
@@ -216,6 +220,7 @@ def fight_battle_monster(type_monster_battle,message):
                              + " дамага\n Здоровья у героя осталось " + str(hero_hp))
     if monster_hp <= 0 and hero_hp > 1:
         bot.send_message(message.from_user.id, "🎊Герой победил🎊")
+
     elif hero_hp <=0 and monster_hp > 1:
         bot.send_message(message.from_user.id, "☠Герой проиграл☠")
 
