@@ -193,24 +193,27 @@ def fight_battle_monster(type_monster_battle,message):
         cur.close()
     monster_lvl = round(rows[0][8] * random.random() * 5)
     monster_hp = monster_lvl * random.randint(2, 10)
-    #monster_dmg = round(monster_lvl * random.random()*4)
     hero_hp = rows[0][11]
-    #hero_dmg = round(rows[0][12] * random.random()*4)
     first_hit = round((rows[0][3] + rows[0][4]) / 2)
     while monster_hp >= 1 or hero_hp >= 1:
         hero_dmg = round(rows[0][12] * random.random() * 4)
         monster_dmg = round(monster_lvl * random.random() * 4)
         if first_hit >= monster_lvl:
             monster_hp = monster_hp - hero_dmg
-            bot.send_message(message.from_user.id, str(rows[0][1]) + "атакует " + str(type_monster_battle) + " нанося " + str(hero_dmg) + " дамага")
+            bot.send_message(message.from_user.id, str(rows[0][1]) + " атакует " + str(type_monster_battle) + " нанося "
+                                + str(hero_dmg) + " дамага\n  Здоровья у монстра осталось" + str(monster_hp))
             hero_hp = hero_hp - monster_dmg
-            bot.send_message(message.from_user.id, str(type_monster_battle)+ "атакует героя нанося " + str(monster_dmg) + " дамага")
+            bot.send_message(message.from_user.id, str(type_monster_battle)+ " атакует героя нанося " + str(monster_dmg)
+                             + " дамага\n Здоровья у героя осталось" + str(hero_hp))
 
         else:
             hero_hp = hero_hp - monster_dmg
-            bot.send_message(message.from_user.id, str(type_monster_battle)+ "атакует героя нанося " + str(monster_dmg) + " дамага")
+            bot.send_message(message.from_user.id,
+                             str(type_monster_battle) + " атакует героя нанося " + str(monster_dmg)
+                             + " дамага\n Здоровья у героя осталось" + str(hero_hp))
             monster_hp = monster_hp - hero_dmg
-            bot.send_message(message.from_user.id, str(rows[0][1]) + "атакует " + str(type_monster_battle) + " нанося " + str(hero_dmg) + " дамага")
+            bot.send_message(message.from_user.id, str(rows[0][1]) + " атакует " + str(type_monster_battle) + " нанося "
+                             + str(hero_dmg) + " дамага\n  Здоровья у монстра осталось" + str(monster_hp))
 
 
 
