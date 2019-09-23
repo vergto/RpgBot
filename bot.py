@@ -73,16 +73,20 @@ def users_window(message):
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
     else:
         bot.send_message(message.from_user.id, "Профиль игрока: " + str(rows[0][1]) + "\n" \
-                                            "Уровень: " + str(rows[0][8]) + "   " \
-                                            + str(rows[0][9]) + "/" + str(rows[0][10]) + "\n\n" \
-                                            "❤ HP: " + str(rows[0][11]) + "\n" \
-                                            "🔪 DMG: " + str(rows[0][12]) + "\n" \
-                                            "💪 Сила: " + str(rows[0][2]) + "\n" \
-                                            "📚 Интелект: " + str(rows[0][3]) + "\n" \
-                                            "🤸 ‍Ловкость: " + str(rows[0][4]) + "\n" \
-                                            "🧘 ‍Выносливость: " + str(rows[0][5]) + "\n" \
-                                            "🎯 Удача: " + str(rows[0][6]) + "\n\n" \
-                                            "💰 Золото: " + str(rows[0][7]))
+                                                                                      "Уровень: " + str(
+            rows[0][8]) + "   " \
+                         + str(rows[0][9]) + "/" + str(rows[0][10]) + "\n\n" \
+                                                                      "❤ HP: " + str(rows[0][11]) + "\n" \
+                                                                                                    "🔪 DMG: " + str(
+            rows[0][12]) + "\n\n" \
+                           "💪 Сила: " + str(rows[0][2]) + "\n" \
+                                                           "📚 Интелект: " + str(rows[0][3]) + "\n" \
+                                                                                               "🤸 ‍Ловкость: " + str(
+            rows[0][4]) + "\n" \
+                          "🧘 ‍Выносливость: " + str(rows[0][5]) + "\n" \
+                                                                   "🎯 Удача: " + str(rows[0][6]) + "\n\n" \
+                                                                                                    "💰 Золото: " + str(
+            rows[0][7]))
 
 
 def users_up_stats(message):
@@ -127,6 +131,7 @@ def users_up_stats_inc(message):
         cur = users.cursor()
         cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
         rows = cur.fetchall()
+        type_stat = ""
         price_stats_inc = 100 * rows[0][8]
         if rows[0][7] >= price_stats_inc:
             if message.text == "💪 Сила" or message.text == "Сила":
@@ -139,11 +144,33 @@ def users_up_stats_inc(message):
                 type_stat = "Stamina"
             elif message.text == "🎯 Удача" or message.text == "Удача":
                 type_stat = "Luck"
-            cur.execute("UPDATE Users SET " + type_stat + "=" + type_stat + "+1 WHERE  Id=" + str(message.from_user.id))
-            cur.execute(
-                "UPDATE Users SET Gold = Gold-" + str(price_stats_inc) + " WHERE  Id=" + str(message.from_user.id))
-            bot.send_message(message.from_user.id, "Выбранная характеристика повысилась")
-            bot.callback_query_handler(rearwards(message))
+        if type_stat != "" and rows[0][7] >= price_stats_inc:
+            if type_stat == "Strength":
+                cur.execute(
+                    "UPDATE Users SET " + type_stat + "=" + type_stat + "+1 WHERE  Id=" + str(message.from_user.id))
+                cur.execute(
+                    "UPDATE Users SET Gold = Gold-" + str(price_stats_inc) + " WHERE  Id=" + str(message.from_user.id))
+                cur.execute("UPDATE Users SET HP = HP+5 WHERE  Id=" + str(message.from_user.id))
+                cur.execute("UPDATE Users SET DMG = DMG+1 WHERE  Id=" + str(message.from_user.id))
+            elif type_stat == "Stamina":
+                cur.execute(
+                    "UPDATE Users SET " + type_stat + "=" + type_stat + "+1 WHERE  Id=" + str(message.from_user.id))
+                cur.execute(
+                    "UPDATE Users SET Gold = Gold-" + str(price_stats_inc) + " WHERE  Id=" + str(message.from_user.id))
+                cur.execute("UPDATE Users SET HP = HP+10 WHERE  Id=" + str(message.from_user.id))
+            elif type_stat == "Agility":
+                cur.execute(
+                    "UPDATE Users SET " + type_stat + "=" + type_stat + "+1 WHERE  Id=" + str(message.from_user.id))
+                cur.execute(
+                    "UPDATE Users SET Gold = Gold-" + str(price_stats_inc) + " WHERE  Id=" + str(message.from_user.id))
+                cur.execute("UPDATE Users SET DMG = DMG+3 WHERE  Id=" + str(message.from_user.id))
+            elif type_stat == "Luck" or type_stat == "intellect":
+                cur.execute(
+                    "UPDATE Users SET " + type_stat + "=" + type_stat + "+1 WHERE  Id=" + str(message.from_user.id))
+                cur.execute(
+                    "UPDATE Users SET Gold = Gold-" + str(price_stats_inc) + " WHERE  Id=" + str(message.from_user.id))
+                bot.send_message(message.from_user.id, "Выбранная характеристика повысилась")
+                bot.callback_query_handler(rearwards(message))
         else:
             bot.send_message(message.from_user.id, "Вам не хватает ❌денег❌ для прокачки характеристики")
             bot.callback_query_handler(rearwards(message))
