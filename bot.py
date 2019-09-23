@@ -214,7 +214,6 @@ def fight_battle_monster(type_monster_battle,message):
 
 
 
-
 def battle(message):
     users = sqlite3.connect("users.db")
     with users:
@@ -227,7 +226,7 @@ def battle(message):
     else:
         type_monster_battle = rand_battle_monster()
         bot.send_message(message.from_user.id, "на вас напал " + str(type_monster_battle) + "\n"
-                         +str(fight_battle_monster(type_monster_battle) ) + "\n")
+                         +str(fight_battle_monster(type_monster_battle,message) ) + "\n")
 
 
 @bot.message_handler(content_types=['text'])
