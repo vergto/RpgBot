@@ -192,7 +192,7 @@ def fight_battle_monster(type_monster_battle,message):
         rows = cur.fetchall()
         cur.close()
     monster_lvl = round(rows[0][8] * random.randint(1, 5))
-    monster_hp = monster_lvl * random.randint(2, 10)
+    monster_hp = monster_lvl * random.randint(10, 20)
     hero_hp = rows[0][11]
     first_hit = round((rows[0][3] + rows[0][4]) / 2)
     if first_hit >= monster_lvl:
