@@ -148,8 +148,8 @@ def users_up_stats_inc(message):
 
 def rand_battle_monster(message):
     mmm = ["паук", "Гоблин"]
-    random.choice(mmm)
-    bot.send_message(message.from_user.id, "на вас напал" + str(message.from_user.id))
+    mm = random.choice(mmm)
+    bot.send_message(message.from_user.id, "на вас напал" + str(mm))
 
 
 def battle(message):
