@@ -146,7 +146,7 @@ def users_up_stats_inc(message):
             bot.callback_query_handler(rearwards(message))
     cur.close()
 
-def rand_battle_monster(message):
+def rand_battle_monster():
     mmm = ["паук", "Гоблин"]
     mm = random.choice(mmm)
     return mm
@@ -162,7 +162,7 @@ def battle(message):
     if not rows:
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
     else:
-        bot.send_message(message.from_user.id, "на вас напал" + str(rand_battle_monster(message)))
+        bot.send_message(message.from_user.id, "на вас напал" + str(rand_battle_monster()))
 
 
 @bot.message_handler(content_types=['text'])
