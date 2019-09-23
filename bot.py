@@ -195,7 +195,7 @@ def fight_battle_monster(type_monster_battle,message):
     monster_hp = monster_lvl * random.randint(2, 10)
     hero_hp = rows[0][11]
     first_hit = round((rows[0][3] + rows[0][4]) / 2)
-    while monster_hp >= 1 or hero_hp >= 1:
+    while monster_hp >= 1 and hero_hp >= 1:
         hero_dmg = round(rows[0][12] * random.random() * 4)
         monster_dmg = round(monster_lvl * random.random() * 4)
         if first_hit >= monster_lvl:
