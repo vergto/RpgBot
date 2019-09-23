@@ -233,7 +233,7 @@ def battle(message):
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
     else:
         type_monster_battle = rand_battle_monster()
-        bot.send_message(message.from_user.id, "на вас напал " + str(type_monster_battle) + "\n")
+        bot.send_message(message.from_user.id, "на вас напал " + str(type_monster_battle))
         fight_battle_monster(type_monster_battle,message)
 
 
