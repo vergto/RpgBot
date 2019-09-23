@@ -73,20 +73,16 @@ def users_window(message):
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
     else:
         bot.send_message(message.from_user.id, "Профиль игрока: " + str(rows[0][1]) + "\n" \
-                                                                                      "Уровень: " + str(
-            rows[0][8]) + "   " \
-                         + str(rows[0][9]) + "/" + str(rows[0][10]) + "\n\n" \
-                                                                      "❤ HP: " + str(rows[0][11]) + "\n" \
-                                                                                                    "🔪 DMG: " + str(
-            rows[0][12]) + "\n\n" \
-                           "💪 Сила: " + str(rows[0][2]) + "\n" \
-                                                           "📚 Интелект: " + str(rows[0][3]) + "\n" \
-                                                                                               "🤸 ‍Ловкость: " + str(
-            rows[0][4]) + "\n" \
-                          "🧘 ‍Выносливость: " + str(rows[0][5]) + "\n" \
-                                                                   "🎯 Удача: " + str(rows[0][6]) + "\n\n" \
-                                                                                                    "💰 Золото: " + str(
-            rows[0][7]))
+                                               "Уровень: " + str(rows[0][8]) + "   " \
+                                                + str(rows[0][9]) + "/" + str(rows[0][10]) + "\n\n" \
+                                                "❤ HP: " + str(rows[0][11]) + "\n" \
+                                                "🔪 DMG: " + str(rows[0][12]) + "\n\n" \
+                                                "💪 Сила: " + str(rows[0][2]) + "\n" \
+                                                "📚 Интелект: " + str(rows[0][3]) + "\n" \
+                                                "🤸 ‍Ловкость: " + str(rows[0][4]) + "\n" \
+                                                "🧘 ‍Выносливость: " + str(rows[0][5]) + "\n" \
+                                                "🎯 Удача: " + str(rows[0][6]) + "\n\n" \
+                                                 "💰 Золото: " + str(rows[0][7]))
 
 
 def users_up_stats(message):
@@ -188,6 +184,36 @@ def rand_battle_monster():
     mm = random.choice(mmm)
     return mm
 
+def fight_battle_monster(type_monster_battle,message):
+    users = sqlite3.connect("users.db")
+    with users:
+        cur = users.cursor()
+        cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
+        rows = cur.fetchall()
+        cur.close()
+    monster_lvl = round(rows[0][8] * random.random() * 5)
+    monster_hp = monster_lvl * random.randint(2, 10)
+    #monster_dmg = round(monster_lvl * random.random()*4)
+    hero_hp = rows[0][11]
+    #hero_dmg = round(rows[0][12] * random.random()*4)
+    first_hit = round((rows[0][3] + rows[0][4]) / 2)
+    while monster_hp >= 1 or hero_hp >= 1:
+        hero_dmg = round(rows[0][12] * random.random() * 4)
+        monster_dmg = round(monster_lvl * random.random() * 4)
+        if first_hit >= monster_lvl:
+            monster_hp = monster_hp - hero_dmg
+            bot.send_message(message.from_user.id, str(rows[0][1]) + "атакует " + str(type_monster_battle) + " нанося " + str(hero_dmg) + " дамага")
+            hero_hp = hero_hp - monster_dmg
+            bot.send_message(message.from_user.id, str(type_monster_battle)+ "атакует героя нанося " + str(monster_dmg) + " дамага")
+
+        else:
+            hero_hp = hero_hp - monster_dmg
+            bot.send_message(message.from_user.id, str(type_monster_battle)+ "атакует героя нанося " + str(monster_dmg) + " дамага")
+            monster_hp = monster_hp - hero_dmg
+            bot.send_message(message.from_user.id, str(rows[0][1]) + "атакует " + str(type_monster_battle) + " нанося " + str(hero_dmg) + " дамага")
+
+
+
 
 def battle(message):
     users = sqlite3.connect("users.db")
@@ -200,7 +226,8 @@ def battle(message):
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
     else:
         type_monster_battle = rand_battle_monster()
-        bot.send_message(message.from_user.id, "на вас напал " + str(type_monster_battle) + "\n")
+        bot.send_message(message.from_user.id, "на вас напал " + str(type_monster_battle) + "\n"
+                         +str(fight_battle_monster(type_monster_battle) ) + "\n")
 
 
 @bot.message_handler(content_types=['text'])
@@ -236,8 +263,6 @@ def get_text_messages(message):
         bot.callback_query_handler(users_up_stats_inc(message))
     elif message.text == "Бой ⚔" or message.text == "Бой":
         bot.callback_query_handler(battle(message))
-    elif message.text == "Ранд":
-        bot.callback_query_handler(rand_battle_monster(message))
 
 
 bot.polling()
