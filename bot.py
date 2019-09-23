@@ -199,6 +199,7 @@ def fight_battle_monster(type_monster_battle,message):
         flagg = 1
     else:
         flagg = 0
+    bot.send_message(message.from_user.id, str(hero_hp) + "монстр - " + str(monster_hp))
     while monster_hp >= 1 and hero_hp >= 1:
         hero_dmg = round(rows[0][12] * random.random() * 4)
         monster_dmg = round(50 + monster_lvl * random.random() * 4)
