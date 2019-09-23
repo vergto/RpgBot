@@ -215,9 +215,9 @@ def fight_battle_monster(type_monster_battle,message):
                              str(type_monster_battle) + " атакует героя нанося " + str(monster_dmg)
                              + " дамага\n Здоровья у героя осталось " + str(hero_hp))
     if monster_hp <= 0 and hero_hp > 1:
-        bot.send_message(message.from_user.id, "Герой победил")
+        bot.send_message(message.from_user.id, "🎊Герой победил🎊")
     elif hero_hp <=0 and monster_hp > 1:
-        bot.send_message(message.from_user.id, "Герой проиграл")
+        bot.send_message(message.from_user.id, "☠Герой проиграл☠")
 
 
 
