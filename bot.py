@@ -199,6 +199,7 @@ def fight_battle_monster(type_monster_battle,message):
         hero_dmg = round(rows[0][12] * random.random() * 4)
         monster_dmg = round(50 + monster_lvl * random.random() * 4)
         if first_hit >= monster_lvl:
+            flag = 1
             monster_hp = monster_hp - hero_dmg
             bot.send_message(message.from_user.id, str(rows[0][1]) + " атакует " + str(type_monster_battle) + " нанося "
                                 + str(hero_dmg) + " дамага\n  Здоровья у монстра осталось" + str(monster_hp))
@@ -207,6 +208,7 @@ def fight_battle_monster(type_monster_battle,message):
                              + " дамага\n Здоровья у героя осталось " + str(hero_hp))
 
         else:
+            flag = 0
             hero_hp = hero_hp - monster_dmg
             bot.send_message(message.from_user.id,
                              str(type_monster_battle) + " атакует героя нанося " + str(monster_dmg)
@@ -214,9 +216,9 @@ def fight_battle_monster(type_monster_battle,message):
             monster_hp = monster_hp - hero_dmg
             bot.send_message(message.from_user.id, str(rows[0][1]) + " атакует " + str(type_monster_battle) + " нанося "
                              + str(hero_dmg) + " дамага\n  Здоровья у монстра осталось" + str(monster_hp))
-    if monster_hp <=0:
+    if monster_hp <=0 and flag == 1:
         bot.send_message(message.from_user.id, "Герой победил")
-    else:
+    elif hero_hp <=0 and flag == 0:
         bot.send_message(message.from_user.id, "Герой проиграл ☠")
 
 
