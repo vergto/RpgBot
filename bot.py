@@ -204,16 +204,21 @@ def fight_battle_monster(type_monster_battle,message):
                                 + str(hero_dmg) + " дамага\n  Здоровья у монстра осталось" + str(monster_hp))
             hero_hp = hero_hp - monster_dmg
             bot.send_message(message.from_user.id, str(type_monster_battle)+ " атакует героя нанося " + str(monster_dmg)
-                             + " дамага\n Здоровья у героя осталось" + str(hero_hp))
+                             + " дамага\n Здоровья у героя осталось " + str(hero_hp))
 
         else:
             hero_hp = hero_hp - monster_dmg
             bot.send_message(message.from_user.id,
                              str(type_monster_battle) + " атакует героя нанося " + str(monster_dmg)
-                             + " дамага\n Здоровья у героя осталось" + str(hero_hp))
+                             + " дамага\n Здоровья у героя осталось " + str(hero_hp))
             monster_hp = monster_hp - hero_dmg
             bot.send_message(message.from_user.id, str(rows[0][1]) + " атакует " + str(type_monster_battle) + " нанося "
                              + str(hero_dmg) + " дамага\n  Здоровья у монстра осталось" + str(monster_hp))
+    if monster_hp <=0:
+        bot.send_message(message.from_user.id, "Герой победил")
+    else:
+        bot.send_message(message.from_user.id, "Герой проиграл ☠")
+
 
 
 
