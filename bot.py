@@ -152,18 +152,24 @@ def users_up_stats_inc(message):
                     "UPDATE Users SET Gold = Gold-" + str(price_stats_inc) + " WHERE  Id=" + str(message.from_user.id))
                 cur.execute("UPDATE Users SET HP = HP+5 WHERE  Id=" + str(message.from_user.id))
                 cur.execute("UPDATE Users SET DMG = DMG+1 WHERE  Id=" + str(message.from_user.id))
+                bot.send_message(message.from_user.id, "Выбранная характеристика повысилась")
+                bot.callback_query_handler(rearwards(message))
             elif type_stat == "Stamina":
                 cur.execute(
                     "UPDATE Users SET " + type_stat + "=" + type_stat + "+1 WHERE  Id=" + str(message.from_user.id))
                 cur.execute(
                     "UPDATE Users SET Gold = Gold-" + str(price_stats_inc) + " WHERE  Id=" + str(message.from_user.id))
                 cur.execute("UPDATE Users SET HP = HP+10 WHERE  Id=" + str(message.from_user.id))
+                bot.send_message(message.from_user.id, "Выбранная характеристика повысилась")
+                bot.callback_query_handler(rearwards(message))
             elif type_stat == "Agility":
                 cur.execute(
                     "UPDATE Users SET " + type_stat + "=" + type_stat + "+1 WHERE  Id=" + str(message.from_user.id))
                 cur.execute(
                     "UPDATE Users SET Gold = Gold-" + str(price_stats_inc) + " WHERE  Id=" + str(message.from_user.id))
                 cur.execute("UPDATE Users SET DMG = DMG+3 WHERE  Id=" + str(message.from_user.id))
+                bot.send_message(message.from_user.id, "Выбранная характеристика повысилась")
+                bot.callback_query_handler(rearwards(message))
             elif type_stat == "Luck" or type_stat == "intellect":
                 cur.execute(
                     "UPDATE Users SET " + type_stat + "=" + type_stat + "+1 WHERE  Id=" + str(message.from_user.id))
