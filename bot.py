@@ -204,12 +204,12 @@ def fight_battle_monster(type_monster_battle,message):
         hero_dmg = round(rows[0][12] * random.random() * 4)
         monster_dmg = round(50 + monster_lvl * random.random() * 4)
         if flagg == 1:
-            flag = 0
+            flagg = 0
             monster_hp = monster_hp - hero_dmg
             bot.send_message(message.from_user.id, str(rows[0][1]) + " атакует " + str(type_monster_battle) + " нанося "
                                 + str(hero_dmg) + " дамага\n  Здоровья у монстра осталось" + str(monster_hp))
         elif flagg == 0:
-            flag = 1
+            flagg = 1
             hero_hp = hero_hp - monster_dmg
             bot.send_message(message.from_user.id,
                              str(type_monster_battle) + " атакует героя нанося " + str(monster_dmg)
