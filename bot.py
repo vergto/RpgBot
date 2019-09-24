@@ -180,7 +180,7 @@ def users_up_stats_inc(message):
 
 
 def rand_battle_monster():
-    mmm = ["Паук", "Гоблин", "Слизь", "Крыса"]
+    mmm = ["Паук", "Гоблин", "Слизь", "Крыс"]
     mm = random.choice(mmm)
     return mm
 
@@ -209,7 +209,7 @@ def lvl_up_hero(fight_logs_battle,monster_lvl, message):
     cur.close()
 
 
-def fight_battle_monster(type_monster_battle, message):
+def fight_battle_monster(fight_logs_battle, type_monster_battle, message):
     users = sqlite3.connect("users.db")
     with users:
         cur = users.cursor()
@@ -220,7 +220,7 @@ def fight_battle_monster(type_monster_battle, message):
     monster_hp = monster_lvl * random.randint(10, 20)
     hero_hp = rows[0][11]
     first_hit = round((rows[0][3] + rows[0][4] + rows[0][6]) / 3) - 1
-    fight_logs_battle = str(rows[0][1]) + ": " + str(hero_hp) + "❤ / " + str(type_monster_battle) + " " \
+    fight_logs_battle = fight_logs_battle + str(rows[0][1]) + ": " + str(hero_hp) + "❤ / " + str(type_monster_battle) + " " \
                         + str(monster_lvl) + " уровня: " + str(monster_hp) + "❤ \n\n"
     if first_hit > monster_lvl:
         flagg = 1
@@ -243,7 +243,6 @@ def fight_battle_monster(type_monster_battle, message):
                                 + str(monster_dmg) + " урона\n Здоровья у героя осталось " + str(hero_hp) + "\n"
     if monster_hp <= 0 and hero_hp >= 1:
         fight_logs_battle = fight_logs_battle + "\n🎊Герой победил🎊"
-        #bot.send_message(message.from_user.id, fight_logs_battle)
         lvl_up_hero(fight_logs_battle, monster_lvl, message)
     elif hero_hp <= 0 and monster_hp >= 1:
         fight_logs_battle = fight_logs_battle + "\n☠Герой проиграл☠"
@@ -261,8 +260,8 @@ def battle(message):
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
     else:
         type_monster_battle = rand_battle_monster()
-        bot.send_message(message.from_user.id, "на вас напал " + str(type_monster_battle))
-        fight_battle_monster(type_monster_battle, message)
+        fight_logs_battle = "на вас напал " + str(type_monster_battle) + "\n"
+        fight_battle_monster(fight_logs_battle, type_monster_battle, message)
 
 
 @bot.message_handler(content_types=['text'])
