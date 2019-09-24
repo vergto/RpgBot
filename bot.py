@@ -194,7 +194,7 @@ def lvl_up_hero(fight_logs_battle,monster_lvl, message):
         experience_lvl = round((monster_lvl - rows[0][8] + 1) + (rows[0][10] / 100 * random.randint(3, 5)))
         fight_logs_battle = fight_logs_battle + "\nполучено опыта: " + str(experience_lvl)
         cur.execute("UPDATE Users SET LVL_OP = LVL_OP+" + str(experience_lvl) + " WHERE  Id=" + str(message.from_user.id))
-        while (rows[0][9] + experience_lvl) >= rows[0][10]:
+        if (rows[0][9] + experience_lvl) >= rows[0][10]:
             cur.execute(
                 "UPDATE Users SET LVL_OP = LVL_OP-" + str(rows[0][10]) + " WHERE  Id=" + str(message.from_user.id))
             bot.send_message(message.from_user.id, "1")
