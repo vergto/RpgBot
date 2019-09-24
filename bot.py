@@ -207,8 +207,8 @@ def lvl_up_hero(fight_logs_battle,monster_lvl, message):
             cur.execute("UPDATE Users SET DMG = DMG+5 WHERE  Id=" + str(message.from_user.id))
             fight_logs_battle = fight_logs_battle + "\n🎊🎊Ваш уровень повышен🎊🎊 \nЗдоровье увеличено на 20❤ и урон " \
                                                     "увеличен на 5🔪 "
-        fight_logs_battle = fight_logs_battle + "\nВаш уровень:" + str(rows[0][8]) + "   " \
-                                                    + str(rows[0][9] + experience_lvl) + "/" + str(rows[0][10])
+            fight_logs_battle = fight_logs_battle + "\nВаш уровень: " + str(rows[0][8] + 1) + "   " \
+                                                    + str(rows[0][9] + experience_lvl - rows[0][10]) + "/" + str(rows[0][10]*4)
         bot.send_message(message.from_user.id, fight_logs_battle)
     cur.close()
 
