@@ -219,12 +219,12 @@ def fight_battle_monster(type_monster_battle, message):
     monster_lvl = round(rows[0][8] * random.randint(1, 5))
     monster_hp = monster_lvl * random.randint(10, 20)
     hero_hp = rows[0][11]
-    first_hit = round((rows[0][3] + rows[0][4]) / 2)
+    first_hit = round((rows[0][3] + rows[0][4] + rows[0][6]) / 3) - 1
     fight_logs_battle = str(rows[0][1]) + ": " + str(hero_hp) + "❤ / " + str(type_monster_battle) + " " \
                         + str(monster_lvl) + " уровня: " + str(monster_hp) + "❤ \n\n"
-    if first_hit >= monster_lvl:
+    if first_hit > monster_lvl:
         flagg = 1
-        fight_logs_battle = fight_logs_battle + str(rows[0][1]) + "Заметил монстра первым\n"
+        fight_logs_battle = fight_logs_battle + str(rows[0][1]) + " Заметил монстра первым\n"
     else:
         flagg = 0
         fight_logs_battle = fight_logs_battle + "Герой не заметил подкрадывающегося монстра\n"
