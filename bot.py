@@ -191,7 +191,6 @@ def lvl_up_hero(fight_logs_battle,monster_lvl, message):
         cur = users.cursor()
         cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
         rows = cur.fetchall()
-        cur.close()
     experience_lvl = round((monster_lvl - rows[0][8] + 1) + (rows[0][10] / 100 * random.randint(3, 5)))
     fight_logs_battle = fight_logs_battle + "\nполучено опыта: " + str(experience_lvl)
     bot.send_message(message.from_user.id, fight_logs_battle)
@@ -209,6 +208,7 @@ def lvl_up_hero(fight_logs_battle,monster_lvl, message):
     fight_logs_battle = fight_logs_battle + "\nВаш уровень:"+ str(rows[0][8]) + "   " \
                                                 + str(rows[0][9]) + "/" + str(rows[0][10])
     bot.send_message(message.from_user.id, fight_logs_battle)
+    cur.close()
 
 
 def fight_battle_monster(type_monster_battle, message):
