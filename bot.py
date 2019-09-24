@@ -193,14 +193,14 @@ def rand_gold_battle(fight_logs_battle, monster_lvl, message):
         rows = cur.fetchall()
         gold_plus = round(monster_lvl * random.randint(1, 15))
         bot.send_message(message.from_user.id, str(gold_plus))
-        cur.execute("UPDATE Users SET  Gold = Gold+" + str(gold_plus) + " WHERE  Id=" + str(message.from_user.id))
+        cur.execute("UPDATE Users SET Gold = Gold+" + str(gold_plus) + " WHERE  Id=" + str(message.from_user.id))
         bot.send_message(message.from_user.id, fight_logs_battle)
         fight_logs_battle += "\nполучено: " + str(rows[0][7]) + "+" + str(gold_plus) + " золота💰"
         bot.send_message(message.from_user.id, fight_logs_battle)
     cur.close()
 
 
-def lvl_up_hero(fight_logs_battle,monster_lvl, message):
+def lvl_up_hero(fight_logs_battle, monster_lvl, message):
     users = sqlite3.connect("users.db")
     with users:
         cur = users.cursor()
