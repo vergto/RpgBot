@@ -186,6 +186,7 @@ def rand_battle_monster():
 
 
 def lvl_up_hero(fight_logs_battle,monster_lvl, message):
+    bot.send_message(message.from_user.id, fight_logs_battle)
     users = sqlite3.connect("users.db")
     with users:
         cur = users.cursor()
@@ -193,7 +194,9 @@ def lvl_up_hero(fight_logs_battle,monster_lvl, message):
         rows = cur.fetchall()
         cur.close()
     experience_lvl = (monster_lvl - rows[0][8] + 1) + (rows[0][10] / 100 * random.randint(3, 5))
+    bot.send_message(message.from_user.id, fight_logs_battle)
     fight_logs_battle = fight_logs_battle + "\nполучено опыта: " + str(experience_lvl)
+    bot.send_message(message.from_user.id, fight_logs_battle)
     cur.execute("UPDATE Users SET LVL_OP = LVL_OP+" + str(experience_lvl) + " WHERE  Id=" + str(message.from_user.id))
     while rows[0][9] >= rows[0][10]:
         cur.execute(
