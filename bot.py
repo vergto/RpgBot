@@ -303,5 +303,5 @@ def get_text_messages(message):
     elif message.text == "Бой ⚔" or message.text == "Бой":
         bot.callback_query_handler(battle(message))
 
-
+#fe
 bot.polling()
