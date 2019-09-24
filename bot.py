@@ -191,7 +191,7 @@ def rand_gold_battle(fight_logs_battle, monster_lvl, message):
         cur = users.cursor()
         cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
         rows = cur.fetchall()
-        golg_plus = monster_lvl * random.randint(1, 15)
+        golg_plus = round(monster_lvl * random.randint(1, 15))
         bot.send_message(message.from_user.id, fight_logs_battle)
         cur.execute("UPDATE Users SET  Gold = Gold+" + str(golg_plus) + " WHERE  Id=" + str(message.from_user.id))
         bot.send_message(message.from_user.id, fight_logs_battle)
