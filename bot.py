@@ -92,7 +92,7 @@ def users_up_stats(message):
         cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
         rows = cur.fetchall()
         cur.close()
-    if rows == []:
+    if not rows:
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
     else:
         up_stats = telebot.types.ReplyKeyboardMarkup(True, False)
@@ -143,7 +143,7 @@ def users_up_stats_inc(message):
         if type_stat != "" and rows[0][7] >= price_stats_inc:
             if type_stat == "Strength":
                 cur.execute(
-                    "UPDATE Users SET " + type_stat + "=" + type_stat + "+1 WHERE  Id=" + str(message.from_user.id))
+                    "UPDATE Users SET " + type_stat + "=" + type_stat + "+2 WHERE  Id=" + str(message.from_user.id))
                 cur.execute(
                     "UPDATE Users SET Gold = Gold-" + str(price_stats_inc) + " WHERE  Id=" + str(message.from_user.id))
                 cur.execute("UPDATE Users SET HP = HP+5 WHERE  Id=" + str(message.from_user.id))
@@ -180,7 +180,7 @@ def users_up_stats_inc(message):
 
 
 def rand_battle_monster():
-    mmm = ["Паук", "Гоблин", "Слизь", "Крыс"]
+    mmm = ["Паук", "Гоблин", "Слизень", "Крыс", "Зараженный", "Зомби"]
     mm = random.choice(mmm)
     return mm
 
@@ -197,9 +197,13 @@ def lvl_up_hero(fight_logs_battle,monster_lvl, message):
         while (rows[0][9] + experience_lvl) >= rows[0][10]:
             cur.execute(
                 "UPDATE Users SET LVL_OP = LVL_OP-" + str(rows[0][10]) + " WHERE  Id=" + str(message.from_user.id))
+            bot.send_message(message.from_user.id, "1")
             cur.execute("UPDATE Users SET LVL_NEED_OP = LVL_NEED_OP*4 WHERE  Id=" + str(message.from_user.id))
+            bot.send_message(message.from_user.id, "1")
             cur.execute("UPDATE Users SET LVL = LVL+1 WHERE  Id=" + str(message.from_user.id))
+            bot.send_message(message.from_user.id, "1")
             cur.execute("UPDATE Users SET HP = HP+20 WHERE  Id=" + str(message.from_user.id))
+            bot.send_message(message.from_user.id, "1")
             cur.execute("UPDATE Users SET DMG = DMG+5 WHERE  Id=" + str(message.from_user.id))
             fight_logs_battle = fight_logs_battle + "\n🎊🎊Ваш уровень повышен🎊🎊 \nЗдоровье увеличено на 20❤ и урон " \
                                                     "увеличен на 5🔪 "
@@ -297,6 +301,5 @@ def get_text_messages(message):
         bot.callback_query_handler(users_up_stats_inc(message))
     elif message.text == "Бой ⚔" or message.text == "Бой":
         bot.callback_query_handler(battle(message))
-
 
 bot.polling()
