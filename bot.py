@@ -48,7 +48,7 @@ def start_message(message):
         cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
         rows = cur.fetchall()
     cur.close()
-    if rows == []:
+    if not rows:
         bot.callback_query_handler(hello(message))
 
 
@@ -69,11 +69,11 @@ def users_window(message):
         cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
         rows = cur.fetchall()
         cur.close()
-    if rows == []:
+    if not rows:
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
     else:
         bot.send_message(message.from_user.id, "Профиль игрока: " + str(rows[0][1]) + "\n" \
-                                               "Уровень: " + str(rows[0][8]) + "   " \
+                                                "Уровень: " + str(rows[0][8]) + "   " \
                                                 + str(rows[0][9]) + "/" + str(rows[0][10]) + "\n\n" \
                                                 "❤ HP: " + str(rows[0][11]) + "\n" \
                                                 "🔪 DMG: " + str(rows[0][12]) + "\n\n" \
@@ -184,7 +184,32 @@ def rand_battle_monster():
     mm = random.choice(mmm)
     return mm
 
-def fight_battle_monster(type_monster_battle,message):
+
+def lvl_up_hero(fight_logs_battle,monster_lvl, message):
+    users = sqlite3.connect("users.db")
+    with users:
+        cur = users.cursor()
+        cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
+        rows = cur.fetchall()
+        cur.close()
+    experience_lvl = (monster_lvl - rows[0][8] + 1) + (rows[0][10] / 100 * random.randint(3, 5))
+    fight_logs_battle = fight_logs_battle + "\nполучено опыта: " + str(experience_lvl)
+    cur.execute("UPDATE Users SET LVL_OP = LVL_OP+" + str(experience_lvl) + " WHERE  Id=" + str(message.from_user.id))
+    while rows[0][9] >= rows[0][10]:
+        cur.execute(
+            "UPDATE Users SET LVL_OP = LVL_OP-" + str(rows[0][10]) + " WHERE  Id=" + str(message.from_user.id))
+        cur.execute("UPDATE Users SET LVL_NEED_OP = LVL_NEED_OP*4 WHERE  Id=" + str(message.from_user.id))
+        cur.execute("UPDATE Users SET LVL = LVL+1 WHERE  Id=" + str(message.from_user.id))
+        cur.execute("UPDATE Users SET HP = HP+20 WHERE  Id=" + str(message.from_user.id))
+        cur.execute("UPDATE Users SET DMG = DMG+5 WHERE  Id=" + str(message.from_user.id))
+        fight_logs_battle = fight_logs_battle + "\n🎊🎊Ваш уровень повышен🎊🎊 \nЗдоровье увеличено на 20❤ и урон " \
+                                                "увеличен на 5🔪 "
+    fight_logs_battle = fight_logs_battle + "\nВаш уровень:"+ str(rows[0][8]) + "   " \
+                                                + str(rows[0][9]) + "/" + str(rows[0][10])
+    bot.send_message(message.from_user.id, fight_logs_battle)
+
+
+def fight_battle_monster(type_monster_battle, message):
     users = sqlite3.connect("users.db")
     with users:
         cur = users.cursor()
@@ -195,11 +220,14 @@ def fight_battle_monster(type_monster_battle,message):
     monster_hp = monster_lvl * random.randint(10, 20)
     hero_hp = rows[0][11]
     first_hit = round((rows[0][3] + rows[0][4]) / 2)
+    fight_logs_battle = str(rows[0][1]) + ": " + str(hero_hp) + "❤ / " + str(type_monster_battle) + " " \
+                        + str(monster_lvl) + " уровня: " + str(monster_hp) + "❤ \n\n"
     if first_hit >= monster_lvl:
         flagg = 1
+        fight_logs_battle = fight_logs_battle + str(rows[0][1]) + "Заметил монстра первым\n"
     else:
         flagg = 0
-    fight_logs_battle = str(rows[0][1])+ ": " +str(hero_hp) + "❤ / " + str(type_monster_battle)+ ": " + str(monster_hp) + "❤ \n\n"
+        fight_logs_battle = fight_logs_battle + "Герой не заметил подкрадывающегося монстра\n"
     while monster_hp >= 1 and hero_hp >= 1:
         hero_dmg = round(rows[0][12] * random.random() * 4)
         monster_dmg = round(50 + monster_lvl * random.random() * 4)
@@ -207,26 +235,19 @@ def fight_battle_monster(type_monster_battle,message):
             flagg = 0
             monster_hp = monster_hp - hero_dmg
             fight_logs_battle = fight_logs_battle + str(rows[0][1]) + " атакует " + str(type_monster_battle) \
-                        + " нанося " + str(hero_dmg) + " дамага\n  Здоровья у монстра осталось" + str(monster_hp) + "\n"
+                    + " нанося " + str(hero_dmg) + " урона\n Здоровья у монстра осталось " + str(monster_hp) + "\n"
         elif flagg == 0:
             flagg = 1
             hero_hp = hero_hp - monster_dmg
             fight_logs_battle = fight_logs_battle + str(type_monster_battle) + " атакует героя нанося " \
-                                + str(monster_dmg) + " дамага\n Здоровья у героя осталось " + str(hero_hp) + "\n"
+                                + str(monster_dmg) + " урона\n Здоровья у героя осталось " + str(hero_hp) + "\n"
     if monster_hp <= 0 and hero_hp >= 1:
         fight_logs_battle = fight_logs_battle + "\n🎊Герой победил🎊"
-        bot.send_message(message.from_user.id, fight_logs_battle)
-    elif hero_hp <=0 and monster_hp >= 1:
+        #bot.send_message(message.from_user.id, fight_logs_battle)
+        lvl_up_hero(fight_logs_battle, monster_lvl, message)
+    elif hero_hp <= 0 and monster_hp >= 1:
         fight_logs_battle = fight_logs_battle + "\n☠Герой проиграл☠"
         bot.send_message(message.from_user.id, fight_logs_battle)
-
-
-#bot.send_message(message.from_user.id, fight_logs_battle)
-#bot.send_message(message.from_user.id, str(rows[0][1]) + " атакует " + str(type_monster_battle) + " нанося "
-            #                    + str(hero_dmg) + " дамага\n  Здоровья у монстра осталось" + str(monster_hp))
-#bot.send_message(message.from_user.id,
-            #                 str(type_monster_battle) + " атакует героя нанося " + str(monster_dmg)
-            #                + " дамага\n Здоровья у героя осталось " + str(hero_hp))
 
 
 def battle(message):
@@ -241,7 +262,7 @@ def battle(message):
     else:
         type_monster_battle = rand_battle_monster()
         bot.send_message(message.from_user.id, "на вас напал " + str(type_monster_battle))
-        fight_battle_monster(type_monster_battle,message)
+        fight_battle_monster(type_monster_battle, message)
 
 
 @bot.message_handler(content_types=['text'])
@@ -253,7 +274,7 @@ def get_text_messages(message):
             cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
             rows = cur.fetchall()
         cur.close()
-        if rows == []:
+        if not rows:
             bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
         else:
             bot.send_message(message.from_user.id, "Привет, " + str(rows[0][1]) + ", чем я могу тебе помочь?")
