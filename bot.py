@@ -185,6 +185,19 @@ def rand_battle_monster():
     return mm
 
 
+def rand_gold_battle(fight_logs_battle, monster_lvl, message):
+    users = sqlite3.connect("users.db")
+    with users:
+        cur = users.cursor()
+        cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
+        rows = cur.fetchall()
+        golg_plus = monster_lvl * random.randint(1, 15)
+        cur.execute("UPDATE Users SET  Gold = Gold+" + str(golg_plus) + " WHERE  Id=" + str(message.from_user.id))
+        fight_logs_battle += "\nполучено: " + str(rows[0][7]) + "+" + str(golg_plus) + " золота💰"
+        bot.send_message(message.from_user.id, fight_logs_battle)
+    cur.close()
+
+
 def lvl_up_hero(fight_logs_battle,monster_lvl, message):
     users = sqlite3.connect("users.db")
     with users:
@@ -210,7 +223,7 @@ def lvl_up_hero(fight_logs_battle,monster_lvl, message):
         if lvl_up_flag == 0:
             fight_logs_battle = fight_logs_battle + "\nВаш уровень: " + str(rows[0][8]) + "   " \
                                 + str(rows[0][9] + experience_lvl) + "/" + str(rows[0][10])
-        bot.send_message(message.from_user.id, fight_logs_battle)
+        rand_gold_battle(fight_logs_battle, monster_lvl, message)
     cur.close()
 
 
