@@ -209,7 +209,7 @@ def lvl_up_hero(fight_logs_battle,monster_lvl, message):
             lvl_up_flag = 1
         if lvl_up_flag == 0:
             fight_logs_battle = fight_logs_battle + "\nВаш уровень: " + str(rows[0][8]) + "   " \
-                                + str(rows[0][9]) + "/" + str(rows[0][10])
+                                + str(rows[0][9] + experience_lvl) + "/" + str(rows[0][10])
         bot.send_message(message.from_user.id, fight_logs_battle)
     cur.close()
 
