@@ -243,12 +243,12 @@ def fight_battle_monster(fight_logs_battle, type_monster_battle, message):
             flagg = 0
             monster_hp = monster_hp - hero_dmg
             fight_logs_battle = fight_logs_battle + str(rows[0][1]) + " атакует " + str(type_monster_battle) \
-                    + " нанося " + str(hero_dmg) + " урона\n Здоровья у монстра осталось " + str(monster_hp) + "\n"
+                    + " нанося " + str(hero_dmg) + " урона\n❤ у монстра осталось " + str(monster_hp) + "\n"
         elif flagg == 0:
             flagg = 1
             hero_hp = hero_hp - monster_dmg
             fight_logs_battle = fight_logs_battle + str(type_monster_battle) + " атакует героя нанося " \
-                                + str(monster_dmg) + " урона\n Здоровья у героя осталось " + str(hero_hp) + "\n"
+                                + str(monster_dmg) + " урона\n❤ у героя осталось " + str(hero_hp) + "\n"
     if monster_hp <= 0 and hero_hp >= 1:
         fight_logs_battle = fight_logs_battle + "\n🎊Герой победил🎊"
         lvl_up_hero(fight_logs_battle, monster_lvl, message)
