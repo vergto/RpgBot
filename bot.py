@@ -306,6 +306,6 @@ def get_text_messages(message):
         bot.callback_query_handler(users_up_stats_inc(message))
     elif message.text == "Бой ⚔" or message.text == "Бой":
         bot.callback_query_handler(battle(message))
-
+#wda
 
 bot.polling()
