@@ -86,28 +86,28 @@ def users_list(message):
 #                                                  "💰 Золото: " + str(rows[0][7]))
 # 
 
-# def bmenu.users_up_stats(message):
-#     users = sqlite3.connect("users.db")
-#     with users:
-#         cur = users.cursor()
-#         cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
-#         rows = cur.fetchall()
-#         cur.close()
-#     if not rows:
-#         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
-#     else:
-#         up_stats = telebot.types.ReplyKeyboardMarkup(True, False)
-#         itembtna = telebot.types.KeyboardButton('💪 Сила')
-#         itembtnb = telebot.types.KeyboardButton('📚 Интелект')
-#         itembtnc = telebot.types.KeyboardButton('🤸 ‍Ловкость')
-#         itembtnd = telebot.types.KeyboardButton('🧘 ‍Выносливость')
-#         itembtne = telebot.types.KeyboardButton('🎯 Удача')
-#         itembtnf = telebot.types.KeyboardButton('Назад')
-#         up_stats.row(itembtna, itembtnb, itembtnc)
-#         up_stats.row(itembtnd, itembtne, itembtnf)
-#         bot.send_message(message.from_user.id, "Стоимость прокачки: " + str(100 * rows[0][8]) + "💰")
-#         bot.send_message(message.from_user.id, "Что желаете прокачать " + str(rows[0][1]) + "?\n",
-#                          reply_markup=up_stats)
+def users_up_stats(message):
+    users = sqlite3.connect("users.db")
+    with users:
+        cur = users.cursor()
+        cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
+        rows = cur.fetchall()
+        cur.close()
+    if not rows:
+        bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
+    else:
+        up_stats = telebot.types.ReplyKeyboardMarkup(True, False)
+        itembtna = telebot.types.KeyboardButton('💪 Сила')
+        itembtnb = telebot.types.KeyboardButton('📚 Интелект')
+        itembtnc = telebot.types.KeyboardButton('🤸 ‍Ловкость')
+        itembtnd = telebot.types.KeyboardButton('🧘 ‍Выносливость')
+        itembtne = telebot.types.KeyboardButton('🎯 Удача')
+        itembtnf = telebot.types.KeyboardButton('Назад')
+        up_stats.row(itembtna, itembtnb, itembtnc)
+        up_stats.row(itembtnd, itembtne, itembtnf)
+        bot.send_message(message.from_user.id, "Стоимость прокачки: " + str(100 * rows[0][8]) + "💰")
+        bot.send_message(message.from_user.id, "Что желаете прокачать " + str(rows[0][1]) + "?\n",
+                         reply_markup=up_stats)
 
 
 # def bmenu.rearwards(message):
@@ -291,19 +291,19 @@ def get_text_messages(message):
     elif message.text == "Профиль" or message.text == "профиль" or message.text == "Профиль 🎫":
         bot.callback_query_handler(bmenu.users_window(message))
     elif message.text == "Прокачать 🏅" or message.text == "Прокачать" or message.text == "прокачать":
-        bot.callback_query_handler(bmenu.users_up_stats(message))
+        bot.callback_query_handler(users_up_stats(message))
     elif message.text == "Назад" or message.text == "назад":
         bot.callback_query_handler(bmenu.rearwards(message))
     elif message.text == "💪 Сила" or message.text == "Сила":
-        bot.callback_query_handler(bmenu.users_up_stats_inc(message))
+        bot.callback_query_handler(users_up_stats_inc(message))
     elif message.text == "📚 Интелект" or message.text == "Интелект":
-        bot.callback_query_handler(bmenu.users_up_stats_inc(message))
+        bot.callback_query_handler(users_up_stats_inc(message))
     elif message.text == "🤸 ‍Ловкость" or message.text == "‍Ловкость":
-        bot.callback_query_handler(bmenu.users_up_stats_inc(message))
+        bot.callback_query_handler(users_up_stats_inc(message))
     elif message.text == "🧘 ‍Выносливость" or message.text == "‍Выносливость":
-        bot.callback_query_handler(bmenu.users_up_stats_inc(message))
+        bot.callback_query_handler(users_up_stats_inc(message))
     elif message.text == "🎯 Удача" or message.text == "Удача":
-        bot.callback_query_handler(bmenu.users_up_stats_inc(message))
+        bot.callback_query_handler(users_up_stats_inc(message))
     elif message.text == "Бой ⚔" or message.text == "Бой":
         bot.callback_query_handler(battle(message))
 
