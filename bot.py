@@ -3,6 +3,7 @@ import requests
 import urllib.request
 import sqlite3
 import random
+import bmenu
 
 # Создаем базу данных
 users = sqlite3.connect("users.db")
@@ -109,16 +110,16 @@ def users_up_stats(message):
                          reply_markup=up_stats)
 
 
-def rearwards(message):
-    rearw = telebot.types.ReplyKeyboardMarkup(True, False)
-    itembtna = telebot.types.KeyboardButton('Бой ⚔')
-    itembtnb = telebot.types.KeyboardButton('Профиль 🎫')
-    itembtnc = telebot.types.KeyboardButton('Инвентарь 🎒')
-    itembtnd = telebot.types.KeyboardButton('В гильдию 🏰')
-    itembtne = telebot.types.KeyboardButton('Прокачать 🏅')
-    rearw.row(itembtna, itembtnb)
-    rearw.row(itembtnc, itembtnd, itembtne)
-    bot.send_message(message.from_user.id, "Вы вернулись в стартовое меню", reply_markup=rearw)
+# def rearwards(message):
+#     rearw = telebot.types.ReplyKeyboardMarkup(True, False)
+#     itembtna = telebot.types.KeyboardButton('Бой ⚔')
+#     itembtnb = telebot.types.KeyboardButton('Профиль 🎫')
+#     itembtnc = telebot.types.KeyboardButton('Инвентарь 🎒')
+#     itembtnd = telebot.types.KeyboardButton('В гильдию 🏰')
+#     itembtne = telebot.types.KeyboardButton('Прокачать 🏅')
+#     rearw.row(itembtna, itembtnb)
+#     rearw.row(itembtnc, itembtnd, itembtne)
+#     bot.send_message(message.from_user.id, "Вы вернулись в стартовое меню", reply_markup=rearw)
 
 
 def users_up_stats_inc(message):
@@ -292,7 +293,7 @@ def get_text_messages(message):
     elif message.text == "Прокачать 🏅" or message.text == "Прокачать" or message.text == "прокачать":
         bot.callback_query_handler(users_up_stats(message))
     elif message.text == "Назад" or message.text == "назад":
-        bot.callback_query_handler(rearwards(message))
+        bot.callback_query_handler(bmenu.rearwards(message))
     elif message.text == "💪 Сила" or message.text == "Сила":
         bot.callback_query_handler(users_up_stats_inc(message))
     elif message.text == "📚 Интелект" or message.text == "Интелект":
