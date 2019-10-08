@@ -238,7 +238,11 @@ def battle(message):
 
 @bot.message_handler(commands=['map'])
 def karta(message):
-    photo = 'https://vk.com/albums65765064?z=photo65765064_457255588%2Fphotos65765064'
+    photo = 'https://lh3.googleusercontent.com/zTnAHOf9sYO4wLTiLkl3Y7wrLS_wpSWVP8k3Lfev6QIWy9x-jhtIa7geXyMY4S9Czi80' \
+            '-tooe56p7_tvZWMd1XjJp9H6QnzNAPrngq5QaA7KSBFIW96IXZnFI5JcrWoPKXs_UfH9gncgjQVbY46Ai_f0EWzzstsW4Y8Kn-yW' \
+            '-M8wxgaSFYtMonuI8L4BCXD4bEmtOvgUDhCc8zW8NZ2v6db-whzmmX2MAp-96_8W9WlcKQ2dhSK-qjmBDRt' \
+            '-eTke5hEqfVSAGDJxs25EDXFMs8a' \
+            '-tEq1mchWRw122P76OtUZV45Qk6C66_so_3gXmyZI0KZop5U8OUf2mMTt4HL8aYWidhX79AQUq_yQuwUgoOw9ZnPgR9EhKTgKgTfqzevPkwsgXo7cqoTFJ4YY056J-4xLHyGgzDHKHwUYyKNb6KGrHmZe-FAcv--TNnhX4cqAfDOsycme-xOE-y1m0En_e00RH7ZwBje8Oor9vEuX27-EqIQ3GPh6hSArTlHhmbjGjfek8oQUy3y7nQxGQ-aPumZy0AO1q8RprB-UtOLCqVhJ4qi4kPgZ8I7FeF41uBV9M0Acqy_Hums2dL_dtohViYSdAvwNu932g4fs7gVK16f8e-75oqQmd45ci4ghSqzTRwRWc1FVnIkw2pDyzcO6dya3w9wVGMZdpHx9vkmVDzE3G3rfAE0qvCo1umxdwdfj96K2MYbtgwhVGNZvCP2k6_8cRsKoo1xs9czelt4G=w1024-h768-no '
     img = open(photo)
     print(img)
     bot.send_photo(message.from_user.id, img,
