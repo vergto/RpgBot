@@ -236,6 +236,15 @@ def battle(message):
         fight_battle_monster(fight_logs_battle, type_monster_battle, message)
 
 
+@bot.message_handler(commands=['map'])
+def karta(message):
+    photo = 'https://vk.com/albums65765064?z=photo65765064_457255588%2Fphotos65765064'
+    img = open(photo)
+    print(img)
+    bot.send_photo(message.from_user.id, img,
+                         reply_to_message_id=message.message_id)
+
+
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
     if message.text == "Привет" or message.text == "привет":
