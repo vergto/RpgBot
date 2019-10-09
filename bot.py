@@ -241,8 +241,7 @@ def karta(message):
     photo = 'https://i.postimg.cc/FsSw-KNkD/Map-2.jpg'
     img = open(photo)
     print(img)
-    bot.send_photo(message.from_user.id, img,
-                         reply_to_message_id=message.message_id)
+    bot.send_photo(message.from_user.id, img)
 
 
 @bot.message_handler(content_types=['text'])
