@@ -238,10 +238,10 @@ def battle(message):
 
 @bot.message_handler(commands=['map'])
 def karta(message):
-    photo = 'https://i.postimg.cc/FsSw-KNkD/Map-2.jpg'
-    img = open(photo)
-    print(img)
-    bot.send_photo(message.from_user.id, img)
+    fp = open('map.jpg', 'rb')
+    file_info = bot.InputFileInfo('map.jpg', fp, 'image/jpg')
+    bot.InputFile('photo', file_info)
+    bot.send_photo(message.from_user.id, photo=bot.InputFile)
 
 
 @bot.message_handler(content_types=['text'])
