@@ -238,10 +238,7 @@ def battle(message):
 
 @bot.message_handler(commands=['map'])
 def karta(message):
-    fp = open('map.jpg', 'rb')
-    file_info = bot.InputFileInfo('map.jpg', fp, 'image/jpg')
-    bot.InputFile('photo', file_info)
-    bot.send_photo(message.from_user.id, photo=bot.InputFile)
+    bot.send_photo(message.from_user.id, photo=bot.open('map.jpg', 'rb'))
 
 
 @bot.message_handler(content_types=['text'])
