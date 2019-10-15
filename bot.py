@@ -9,7 +9,7 @@ with users:
     cur = users.cursor()
     cur.execute("DROP TABLE IF EXISTS Users")
     cur.execute("CREATE TABLE Users(Id INT, UserName TEXT, Strength INT, intellect INT, Agility INT, "
-                "Stamina INT, Luck INT, Gold INT, LVL INT, LVL_OP INT, LVL_NEED_OP INT, HP INT, DMG INT)")
+                "Stamina INT, Luck INT, Gold INT, LVL INT, LVL_OP INT, LVL_NEED_OP INT, HP INT, DMG INT, MAP INT)")
 cur.close()
 
 # git add .
@@ -24,9 +24,9 @@ def hello(message):
     name = message.from_user.first_name
     with users:
         cur = users.cursor()
-        cur.execute("""INSERT INTO Users VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);""",
+        cur.execute("""INSERT INTO Users VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);""",
                     (str(message.from_user.id), str(name), str('5'), str('5'), str('5'), str('5'), str('5'),
-                     str('1000'), str('1'), str('0'), str('100'), str('100'), str('10')))
+                     str('1000'), str('1'), str('0'), str('100'), str('100'), str('10'), str('0')))
     cur.close()
 
 
@@ -221,6 +221,39 @@ def fight_battle_monster(fight_logs_battle, type_monster_battle, message):
         bot.send_message(message.from_user.id, fight_logs_battle)
 
 
+def go_throw_map(message):
+    users = sqlite3.connect("users.db")
+    with users:
+        cur = users.cursor()
+        cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
+        rows = cur.fetchall()
+    if not rows:
+        bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
+    else:
+        up_stats = telebot.types.ReplyKeyboardMarkup(True, False)
+        if rows[0][13] == '0':
+            itembtna = telebot.types.KeyboardButton('Забытые руины')
+            itembtnb = telebot.types.KeyboardButton('Озеро чудовищь')
+            itembtnc = telebot.types.KeyboardButton('Огненный грот')
+            itembtnd = telebot.types.KeyboardButton('Не переходить')
+            up_stats.row(itembtna)
+            up_stats.row(itembtnb)
+            up_stats.row(itembtnc)
+            up_stats.row(itembtnd)
+        elif rows[0][13] == '1':
+            itembtna = telebot.types.KeyboardButton('Забытые руины')
+            itembtnb = telebot.types.KeyboardButton('Озеро чудовищь')
+            itembtnc = telebot.types.KeyboardButton('Огненный грот')
+            itembtnd = telebot.types.KeyboardButton('Не переходить')
+            up_stats.row(itembtna)
+            up_stats.row(itembtnb)
+            up_stats.row(itembtnc)
+            up_stats.row(itembtnd)
+        bot.send_message(message.from_user.id, "Куда желаете перейти?", reply_markup=up_stats)
+
+        cur.close()
+
+
 def battle(message):
     users = sqlite3.connect("users.db")
     with users:
@@ -274,6 +307,8 @@ def get_text_messages(message):
         bot.callback_query_handler(users_up_stats_inc(message))
     elif message.text == "Бой ⚔" or message.text == "Бой":
         bot.callback_query_handler(battle(message))
+    elif message.text == "Перейти":
+        bot.callback_query_handler(go_throw_map(message))
 
 
 bot.polling()
