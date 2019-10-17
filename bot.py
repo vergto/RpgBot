@@ -19,6 +19,7 @@ cur.close()
 bot = telebot.TeleBot('952476420:AAHOxzyLhPslDRyRMaxGY2YTZN-ZlGrpwIU')
 
 
+# Создание БД с данными о персонаже
 def hello(message):
     users = sqlite3.connect("users.db")
     name = message.from_user.first_name
@@ -30,13 +31,14 @@ def hello(message):
     cur.close()
 
 
+# инициализация и вывод стартовых кнопок
 @bot.message_handler(commands=['start'])
 def start_message(message):
     start = telebot.types.ReplyKeyboardMarkup(True, False)
     itembtna = telebot.types.KeyboardButton('Бой ⚔')
     itembtnb = telebot.types.KeyboardButton('Профиль 🎫')
     itembtnc = telebot.types.KeyboardButton('Инвентарь 🎒')
-    itembtnd = telebot.types.KeyboardButton('В гильдию 🏰')
+    itembtnd = telebot.types.KeyboardButton('Путешествовать')
     itembtne = telebot.types.KeyboardButton('Прокачать 🏅')
     start.row(itembtna, itembtnb)
     start.row(itembtnc, itembtnd, itembtne)
@@ -61,6 +63,7 @@ def users_list(message):
             bot.send_message(message.from_user.id, str(row))
 
 
+# Кнопки предлагающие на выбор одну из прокачиваемых характеристик
 def users_up_stats(message):
     users = sqlite3.connect("users.db")
     with users:
@@ -85,6 +88,7 @@ def users_up_stats(message):
                          reply_markup=up_stats)
 
 
+# Функция повышения онной характеристики
 def users_up_stats_inc(message):
     users = sqlite3.connect("users.db")
     with users:
@@ -143,12 +147,14 @@ def users_up_stats_inc(message):
     cur.close()
 
 
+# Рандомный монстр
 def rand_battle_monster():
     mmm = ["Паук", "Гоблин", "Слизень", "Крыс", "Зараженный", "Зомби"]
     mm = random.choice(mmm)
     return mm
 
 
+# процесс повышения уровня персонажа
 def lvl_up_hero(fight_logs_battle, monster_lvl, message):
     users = sqlite3.connect("users.db")
     with users:
@@ -221,39 +227,7 @@ def fight_battle_monster(fight_logs_battle, type_monster_battle, message):
         bot.send_message(message.from_user.id, fight_logs_battle)
 
 
-def go_throw_map(message):
-    users = sqlite3.connect("users.db")
-    with users:
-        cur = users.cursor()
-        cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
-        rows = cur.fetchall()
-    if not rows:
-        bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
-    else:
-        up_stats = telebot.types.ReplyKeyboardMarkup(True, False)
-        if rows[0][13] == 0:
-            itembtna = telebot.types.KeyboardButton('Забытые руины')
-            itembtnb = telebot.types.KeyboardButton('Озеро чудовищь')
-            itembtnc = telebot.types.KeyboardButton('Огненный грот')
-            itembtnd = telebot.types.KeyboardButton('Не переходить')
-            up_stats.row(itembtna)
-            up_stats.row(itembtnb)
-            up_stats.row(itembtnc)
-            up_stats.row(itembtnd)
-        elif rows[0][13] == '1':
-            itembtna = telebot.types.KeyboardButton('Забытые руины')
-            itembtnb = telebot.types.KeyboardButton('Озеро чудовищь')
-            itembtnc = telebot.types.KeyboardButton('Огненный грот')
-            itembtnd = telebot.types.KeyboardButton('Не переходить')
-            up_stats.row(itembtna)
-            up_stats.row(itembtnb)
-            up_stats.row(itembtnc)
-            up_stats.row(itembtnd)
-        bot.send_message(message.from_user.id, "Куда желаете перейти?", reply_markup=up_stats)
-
-        cur.close()
-
-
+# Начало генерации битвы, на данном этапе подбирается монстр и сообщение передается след. функции
 def battle(message):
     users = sqlite3.connect("users.db")
     with users:
@@ -269,11 +243,13 @@ def battle(message):
         fight_battle_monster(fight_logs_battle, type_monster_battle, message)
 
 
+# Картинка карты мира
 @bot.message_handler(commands=['map'])
 def karta(message):
     bot.send_photo(message.from_user.id, photo=open('Map.jpg', 'rb'))
 
 
+# реакция бота на текс путем проверки полученного сообщения
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
     if message.text == "Привет" or message.text == "привет":
@@ -293,7 +269,7 @@ def get_text_messages(message):
         bot.callback_query_handler(bmenu.users_window(message))
     elif message.text == "Прокачать 🏅" or message.text == "Прокачать" or message.text == "прокачать":
         bot.callback_query_handler(users_up_stats(message))
-    elif message.text == "Назад" or message.text == "назад":
+    elif message.text == "Назад" or message.text == "назад" or message.text == "Не путешествовать":
         bot.callback_query_handler(bmenu.rearwards(message))
     elif message.text == "💪 Сила" or message.text == "Сила":
         bot.callback_query_handler(users_up_stats_inc(message))
@@ -307,8 +283,12 @@ def get_text_messages(message):
         bot.callback_query_handler(users_up_stats_inc(message))
     elif message.text == "Бой ⚔" or message.text == "Бой":
         bot.callback_query_handler(battle(message))
-    elif message.text == "Перейти":
-        bot.callback_query_handler(go_throw_map(message))
-
+    elif message.text == "Путешествовать" or message.text == "путешествовать":
+        bot.callback_query_handler(bmenu.go_throw_map(message))
+    elif message.text == "Деревня" or message.text == "Забытые руины" or message.text == "Озеро чудовищ" \
+            or message.text == "Огненный грот" \
+            or message.text == "Вернуться в город" or message.text == "Заброшенная башня" or message.text == "Оазис" \
+            or message.text == "Логово Кракена" or message.text == "Логово Дракона":
+        bot.callback_query_handler(bmenu.go_map(message))
 
 bot.polling()
