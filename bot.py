@@ -231,7 +231,7 @@ def go_throw_map(message):
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
     else:
         up_stats = telebot.types.ReplyKeyboardMarkup(True, False)
-        if rows[0][13] == "0":
+        if rows[0][13] == 0:
             itembtna = telebot.types.KeyboardButton('Забытые руины')
             itembtnb = telebot.types.KeyboardButton('Озеро чудовищь')
             itembtnc = telebot.types.KeyboardButton('Огненный грот')
