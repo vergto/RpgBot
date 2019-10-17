@@ -227,6 +227,100 @@ def fight_battle_monster(fight_logs_battle, type_monster_battle, message):
         bot.send_message(message.from_user.id, fight_logs_battle)
 
 
+# Кнопки перемещения в зависимости от местоположения
+def go_throw_map(message):
+    users = sqlite3.connect("users.db")
+    with users:
+        cur = users.cursor()
+        cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
+        rows = cur.fetchall()
+    if not rows:
+        bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
+    else:
+        up_stats = telebot.types.ReplyKeyboardMarkup(True, False)
+        if rows[0][13] == 0:
+            itembtnf = telebot.types.KeyboardButton('Деревня')
+            itembtna = telebot.types.KeyboardButton('Забытые руины')
+            itembtnb = telebot.types.KeyboardButton('Озеро чудовищ')
+            itembtnc = telebot.types.KeyboardButton('Огненный грот')
+            itembtnd = telebot.types.KeyboardButton('Не путешествовать')
+            up_stats.row(itembtnf)
+            up_stats.row(itembtna)
+            up_stats.row(itembtnb)
+            up_stats.row(itembtnc)
+            up_stats.row(itembtnd)
+        elif rows[0][13] == 1:
+            itembtna = telebot.types.KeyboardButton('Вернуться в город')
+            itembtnb = telebot.types.KeyboardButton('Заброшенная башня')
+            up_stats.row(itembtna)
+            up_stats.row(itembtnb)
+        elif rows[0][13] == 2:
+            itembtna = telebot.types.KeyboardButton('Вернуться в город')
+            itembtnb = telebot.types.KeyboardButton('Оазис')
+            up_stats.row(itembtna)
+            up_stats.row(itembtnb)
+        elif rows[0][13] == 3:
+            itembtna = telebot.types.KeyboardButton('Вернуться в город')
+            itembtnb = telebot.types.KeyboardButton('Логово Кракена')
+            up_stats.row(itembtna)
+            up_stats.row(itembtnb)
+        elif rows[0][13] == 4:
+            itembtna = telebot.types.KeyboardButton('Вернуться в город')
+            itembtnb = telebot.types.KeyboardButton('Логово Дракона')
+            up_stats.row(itembtna)
+            up_stats.row(itembtnb)
+        elif rows[0][13] >= 5:
+            itembtna = telebot.types.KeyboardButton('Вернуться в город')
+            up_stats.row(itembtna)
+        bot.send_message(message.from_user.id, "Куда желаете пойти?", reply_markup=up_stats)
+
+        cur.close()
+
+
+def go_map(message):
+    users = sqlite3.connect("users.db")
+    with users:
+        cur = users.cursor()
+        cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
+        rows = cur.fetchall()
+        if message.text == "Деревня":
+            rows[0][13] = 1
+            bot.send_message(message.from_user.id, "Вы перешли в деревню")
+            bot.callback_query_handler(bmenu.rearwards(message))
+        elif message.text == "Забытые руины":
+            rows[0][13] = 2
+            bot.send_message(message.from_user.id, "Вы перешли в Забытые руины")
+            bot.callback_query_handler(bmenu.rearwards(message))
+        elif message.text == "Озеро чудовищ":
+            rows[0][13] = 3
+            bot.send_message(message.from_user.id, "Вы перешли в Озеро чудовищ")
+            bot.callback_query_handler(bmenu.rearwards(message))
+        elif message.text == "Огненный грот":
+            rows[0][13] = 4
+            bot.send_message(message.from_user.id, "Вы перешли в Огненный грот")
+            bot.callback_query_handler(bmenu.rearwards(message))
+        elif message.text == "Вернуться в город":
+            rows[0][13] = 0
+            bot.send_message(message.from_user.id, "Вы вернулись в город")
+            bot.callback_query_handler(bmenu.rearwards(message))
+        elif message.text == "Заброшенная башня":
+            rows[0][13] = 5
+            bot.send_message(message.from_user.id, "Вы перешли в Заброшенную башню")
+            bot.callback_query_handler(bmenu.rearwards(message))
+        elif message.text == "Оазис":
+            rows[0][13] = 6
+            bot.send_message(message.from_user.id, "Вы перешли в Оазис")
+            bot.callback_query_handler(bmenu.rearwards(message))
+        elif message.text == "Логово Кракена":
+            rows[0][13] = 7
+            bot.send_message(message.from_user.id, "Вы перешли в Логово Кракена")
+            bot.callback_query_handler(bmenu.rearwards(message))
+        elif message.text == "Логово Дракона":
+            rows[0][13] = 8
+            bot.send_message(message.from_user.id, "Вы перешли в Логово Дракона")
+            bot.callback_query_handler(bmenu.rearwards(message))
+
+
 # Начало генерации битвы, на данном этапе подбирается монстр и сообщение передается след. функции
 def battle(message):
     users = sqlite3.connect("users.db")
@@ -284,11 +378,11 @@ def get_text_messages(message):
     elif message.text == "Бой ⚔" or message.text == "Бой":
         bot.callback_query_handler(battle(message))
     elif message.text == "Путешествовать" or message.text == "путешествовать":
-        bot.callback_query_handler(bmenu.go_throw_map(message))
+        bot.callback_query_handler(go_throw_map(message))
     elif message.text == "Деревня" or message.text == "Забытые руины" or message.text == "Озеро чудовищ" \
             or message.text == "Огненный грот" \
             or message.text == "Вернуться в город" or message.text == "Заброшенная башня" or message.text == "Оазис" \
             or message.text == "Логово Кракена" or message.text == "Логово Дракона":
-        bot.callback_query_handler(bmenu.go_map(message))
+        bot.callback_query_handler(go_map(message))
 
 bot.polling()
