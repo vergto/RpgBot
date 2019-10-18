@@ -283,40 +283,41 @@ def go_map(message):
         cur = users.cursor()
         cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
         rows = cur.fetchall()
+        cur.close()
         if message.text == "Деревня":
-            rows[0][13] = 1
+            cur.execute("UPDATE Users SET MAP = 1 WHERE  Id=" + str(message.from_user.id))
             bot.send_message(message.from_user.id, "Вы перешли в деревню")
             bot.callback_query_handler(bmenu.rearwards(message))
         elif message.text == "Забытые руины":
-            rows[0][13] = 2
+            cur.execute("UPDATE Users SET MAP = 2 WHERE  Id=" + str(message.from_user.id))
             bot.send_message(message.from_user.id, "Вы перешли в Забытые руины")
             bot.callback_query_handler(bmenu.rearwards(message))
         elif message.text == "Озеро чудовищ":
-            rows[0][13] = 3
+            cur.execute("UPDATE Users SET MAP = 3 WHERE  Id=" + str(message.from_user.id))
             bot.send_message(message.from_user.id, "Вы перешли в Озеро чудовищ")
             bot.callback_query_handler(bmenu.rearwards(message))
         elif message.text == "Огненный грот":
-            rows[0][13] = 4
+            cur.execute("UPDATE Users SET MAP = 4 WHERE  Id=" + str(message.from_user.id))
             bot.send_message(message.from_user.id, "Вы перешли в Огненный грот")
             bot.callback_query_handler(bmenu.rearwards(message))
         elif message.text == "Вернуться в город":
-            rows[0][13] = 0
+            cur.execute("UPDATE Users SET MAP = 0 WHERE  Id=" + str(message.from_user.id))
             bot.send_message(message.from_user.id, "Вы вернулись в город")
             bot.callback_query_handler(bmenu.rearwards(message))
         elif message.text == "Заброшенная башня":
-            rows[0][13] = 5
+            cur.execute("UPDATE Users SET MAP = 5 WHERE  Id=" + str(message.from_user.id))
             bot.send_message(message.from_user.id, "Вы перешли в Заброшенную башню")
             bot.callback_query_handler(bmenu.rearwards(message))
         elif message.text == "Оазис":
-            rows[0][13] = 6
+            cur.execute("UPDATE Users SET MAP = 6 WHERE  Id=" + str(message.from_user.id))
             bot.send_message(message.from_user.id, "Вы перешли в Оазис")
             bot.callback_query_handler(bmenu.rearwards(message))
         elif message.text == "Логово Кракена":
-            rows[0][13] = 7
+            cur.execute("UPDATE Users SET MAP = 7 WHERE  Id=" + str(message.from_user.id))
             bot.send_message(message.from_user.id, "Вы перешли в Логово Кракена")
             bot.callback_query_handler(bmenu.rearwards(message))
         elif message.text == "Логово Дракона":
-            rows[0][13] = 8
+            cur.execute("UPDATE Users SET MAP = 8 WHERE  Id=" + str(message.from_user.id))
             bot.send_message(message.from_user.id, "Вы перешли в Логово Дракона")
             bot.callback_query_handler(bmenu.rearwards(message))
 
