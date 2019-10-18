@@ -148,10 +148,40 @@ def users_up_stats_inc(message):
 
 
 # Рандомный монстр
-def rand_battle_monster():
-    mmm = ["Паук", "Гоблин", "Слизень", "Крыс", "Зараженный", "Зомби"]
-    mm = random.choice(mmm)
-    return mm
+def rand_battle_monster(message):
+    users = sqlite3.connect("users.db")
+    with users:
+        cur = users.cursor()
+        cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
+        rows = cur.fetchall()
+        if rows[0][13] == 0:
+            mmm = ["Гоблин", "Слизень", "Крыс"]
+            mm = random.choice(mmm)
+        elif rows[0][13] == 1:
+            mmm = ["Паук", "Гоблин", "Слизень", "Крыс", "Зараженный", "Зомби"]
+            mm = random.choice(mmm)
+        elif rows[0][13] == 2:
+            mmm = ["Паук", "Гоблин", "Слизень", "Крыс", "Зараженный", "Зомби"]
+            mm = random.choice(mmm)
+        elif rows[0][13] == 3:
+            mmm = ["Паук", "Гоблин", "Слизень", "Крыс", "Зараженный", "Зомби"]
+            mm = random.choice(mmm)
+        elif rows[0][13] == 4:
+            mmm = ["Паук", "Гоблин", "Слизень", "Крыс", "Зараженный", "Зомби"]
+            mm = random.choice(mmm)
+        elif rows[0][13] == 5:
+            mmm = ["Паук", "Гоблин", "Слизень", "Крыс", "Зараженный", "Зомби"]
+            mm = random.choice(mmm)
+        elif rows[0][13] == 6:
+            mmm = ["Паук", "Гоблин", "Слизень", "Крыс", "Зараженный", "Зомби"]
+            mm = random.choice(mmm)
+        elif rows[0][13] == 7:
+            mmm = ["Паук", "Гоблин", "Слизень", "Крыс", "Зараженный", "Зомби"]
+            mm = random.choice(mmm)
+        elif rows[0][13] == 8:
+            mmm = ["Паук", "Гоблин", "Слизень", "Крыс", "Зараженный", "Зомби"]
+            mm = random.choice(mmm)
+        return mm
 
 
 # процесс повышения уровня персонажа
@@ -238,7 +268,7 @@ def battle(message):
     if not rows:
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
     else:
-        type_monster_battle = rand_battle_monster()
+        type_monster_battle = rand_battle_monster(message)
         fight_logs_battle = "на вас напал " + str(type_monster_battle) + "\n"
         fight_battle_monster(fight_logs_battle, type_monster_battle, message)
 
