@@ -283,7 +283,6 @@ def go_map(message):
         cur = users.cursor()
         cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
         rows = cur.fetchall()
-        cur.close()
         if message.text == "Деревня":
             cur.execute("UPDATE Users SET MAP = 1 WHERE  Id=" + str(message.from_user.id))
             bot.send_message(message.from_user.id, "Вы перешли в деревню")
@@ -320,6 +319,7 @@ def go_map(message):
             cur.execute("UPDATE Users SET MAP = 8 WHERE  Id=" + str(message.from_user.id))
             bot.send_message(message.from_user.id, "Вы перешли в Логово Дракона")
             bot.callback_query_handler(bmenu.rearwards(message))
+        cur.close()
 
 
 # Начало генерации битвы, на данном этапе подбирается монстр и сообщение передается след. функции
