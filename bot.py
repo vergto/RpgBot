@@ -147,7 +147,7 @@ def users_up_stats_inc(message):
     cur.close()
 
 
-# Рандомный монстр
+# Рандомный монстр в зависимости от локации
 def rand_battle_monster(message):
     users = sqlite3.connect("users.db")
     with users:
@@ -217,6 +217,7 @@ def lvl_up_hero(fight_logs_battle, monster_lvl, message):
     cur.close()
 
 
+# Создание уровня и HP босса в зависимости от локации
 def fight_battle_monster(fight_logs_battle, type_monster_battle, message):
     users = sqlite3.connect("users.db")
     with users:
@@ -224,8 +225,12 @@ def fight_battle_monster(fight_logs_battle, type_monster_battle, message):
         cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
         rows = cur.fetchall()
         cur.close()
-    monster_lvl = round(rows[0][8] * random.randint(1, 3))
+    monster_lvl = round(rows[0][8] * random.randint(1, 3)) + rows[0][13]
     monster_hp = monster_lvl * random.randint(10, 20)
+    if rows[0][13] == 7:
+        monster_hp = monster_hp + 10000
+    if rows[0][13] == 8:
+        monster_hp = monster_hp + 20000
     hero_hp = rows[0][11]
     first_hit = round((rows[0][3] + rows[0][4] + rows[0][6]) / 3) - 1
     fight_logs_battle = fight_logs_battle + str(rows[0][1]) + ": " + str(hero_hp) + "❤ / " + str(type_monster_battle) + " " \
