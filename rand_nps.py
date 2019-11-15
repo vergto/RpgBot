@@ -35,5 +35,5 @@ class Rand_monster(object):
 
 
     def get_rand_monster(self):
-        self.rand_monster
+        return self.rand_monster
 
