@@ -154,6 +154,7 @@ def rand_battle_monster(message):
         cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
         rows = cur.fetchall()
         R = Rand_monster(rows[0][13])
+    bot.send_message(message.from_user.id, R.get_rand_monster())
     return R.get_rand_monster()
 
 
