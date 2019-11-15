@@ -37,11 +37,10 @@ def start_message(message):
     start = telebot.types.ReplyKeyboardMarkup(True, False)
     itembtna = telebot.types.KeyboardButton('Бой ⚔')
     itembtnb = telebot.types.KeyboardButton('Профиль 🎫')
-    itembtnc = telebot.types.KeyboardButton('Инвентарь 🎒')
     itembtnd = telebot.types.KeyboardButton('Путешествовать')
     itembtne = telebot.types.KeyboardButton('Прокачать 🏅')
     start.row(itembtna, itembtnb)
-    start.row(itembtnc, itembtnd, itembtne)
+    start.row(itembtnd, itembtne)
     bot.send_message(message.from_user.id, "Выбери действие:", reply_markup=start)
     users = sqlite3.connect("users.db")
     with users:
