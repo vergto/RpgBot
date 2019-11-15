@@ -1,7 +1,7 @@
 import telebot
 import sqlite3
-import random
 import bmenu
+from rand_nps import *
 
 # Создаем базу данных
 users = sqlite3.connect("users.db")
@@ -146,7 +146,6 @@ def users_up_stats_inc(message):
             bot.callback_query_handler(bmenu.rearwards(message))
     cur.close()
 
-
 # Рандомный монстр в зависимости от локации
 def rand_battle_monster(message):
     users = sqlite3.connect("users.db")
@@ -154,34 +153,8 @@ def rand_battle_monster(message):
         cur = users.cursor()
         cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
         rows = cur.fetchall()
-        if rows[0][13] == 0:
-            mmm = ["Гоблин", "Слизень", "Крыс"]
-            mm = random.choice(mmm)
-        elif rows[0][13] == 1:
-            mmm = ["Паук", "Гоблин", "Слизень", "Крыс", "Зараженный", "Зомби"]
-            mm = random.choice(mmm)
-        elif rows[0][13] == 2:
-            mmm = ["Песчанный Паук", "Песчанный Гоблин", "Песчанный Слизень", "Песчанный Крыс", "Песчанный Зомби"]
-            mm = random.choice(mmm)
-        elif rows[0][13] == 3:
-            mmm = ["Водный Паук", "Водный Гоблин", "Водный Слизень", "Водный Крыс", "Водный Зараженный", "Водный Зомби"]
-            mm = random.choice(mmm)
-        elif rows[0][13] == 4:
-            mmm = ["Огненный Паук", "Огненный Гоблин", "Огненный Слизень", "Огненный Голем"]
-            mm = random.choice(mmm)
-        elif rows[0][13] == 5:
-            mmm = ["Ведьма", "Умертвие", "Скелет", "Мимик"]
-            mm = random.choice(mmm)
-        elif rows[0][13] == 6:
-            mmm = ["Рыба людоед", "Гоблин", "Сирена"]
-            mm = random.choice(mmm)
-        elif rows[0][13] == 7:
-            mmm = ["Кракен"]
-            mm = random.choice(mmm)
-        elif rows[0][13] == 8:
-            mmm = ["Дракон"]
-            mm = random.choice(mmm)
-        return mm
+        R = Rand_monster(rows[0][13])
+    return R.get_rand_monster()
 
 
 # процесс повышения уровня персонажа
