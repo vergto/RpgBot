@@ -18,17 +18,17 @@ cur.close()
 
 bot = telebot.TeleBot('952476420:AAHOxzyLhPslDRyRMaxGY2YTZN-ZlGrpwIU')
 
-
-# Создание БД с данными о персонаже
-def hello(message):
-    users = sqlite3.connect("users.db")
-    name = message.from_user.first_name
-    with users:
-        cur = users.cursor()
-        cur.execute("""INSERT INTO Users VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);""",
-                    (str(message.from_user.id), str(name), str('5'), str('5'), str('5'), str('5'), str('5'),
-                     str('1000'), str('1'), str('0'), str('100'), str('100'), str('10'), str('0')))
-    cur.close()
+class createBD:
+    # Создание БД с данными о персонаже
+    def createBD(message):
+        users = sqlite3.connect("users.db")
+        name = message.from_user.first_name
+        with users:
+            cur = users.cursor()
+            cur.execute("""INSERT INTO Users VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);""",
+                        (str(message.from_user.id), str(name), str('5'), str('5'), str('5'), str('5'), str('5'),
+                         str('1000'), str('1'), str('0'), str('100'), str('100'), str('10'), str('0')))
+        cur.close()
 
 
 # инициализация и вывод стартовых кнопок
@@ -50,9 +50,10 @@ def start_message(message):
         rows = cur.fetchall()
     cur.close()
     if not rows:
-        bot.callback_query_handler(hello(message))
+        bot.callback_query_handler(createBD(message))
 
 
+# Вывод всех пользователей и их данных
 def users_list(message):
     users = sqlite3.connect("users.db")
     with users:
