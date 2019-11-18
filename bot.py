@@ -147,14 +147,14 @@ def users_up_stats_inc(message):
     cur.close()
 
 # Рандомный монстр в зависимости от локации
-def rand_battle_monster(message):
-    users = sqlite3.connect("users.db")
-    with users:
-        cur = users.cursor()
-        cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
-        rows = cur.fetchall()
-        R = Rand_monster(rows[0][13])
-    return R.get_rand_monster()
+#def rand_battle_monster(message):
+#    users = sqlite3.connect("users.db")
+#    with users:
+#        cur = users.cursor()
+ #       cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
+ #       rows = cur.fetchall()
+#        R = Rand_monster(rows[0][13])
+  #  return R.get_rand_monster()
 
 
 # процесс повышения уровня персонажа
@@ -246,7 +246,7 @@ def battle(message):
     if not rows:
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
     else:
-        type_monster_battle = rand_battle_monster(message)
+        type_monster_battle = Rand_monster(rows[0][13])
         fight_logs_battle = "на вас напал " + str(type_monster_battle) + "\n"
         fight_battle_monster(fight_logs_battle, type_monster_battle, message)
 
