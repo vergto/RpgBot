@@ -246,7 +246,8 @@ def battle(message):
     if not rows:
         bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
     else:
-        type_monster_battle = Rand_monster(rows[0][13])
+        R = Rand_monster(rows[0][13])
+        type_monster_battle = R.get_rand_monster()
         fight_logs_battle = "на вас напал " + str(type_monster_battle) + "\n"
         fight_battle_monster(fight_logs_battle, type_monster_battle, message)
 
