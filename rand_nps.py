@@ -3,7 +3,6 @@ import random
 
 class Rand_monster(object):
 
-
     def __init__(self, A):
         if A == 0:
             monter = ["Гоблин", "Слизень", "Крыс"]
@@ -15,7 +14,8 @@ class Rand_monster(object):
             monter = ["Песчанный Паук", "Песчанный Гоблин", "Песчанный Слизень", "Песчанный Крыс", "Песчанный Зомби"]
             self.rand_monster = random.choice(monter)
         elif A == 3:
-            monter = ["Водный Паук", "Водный Гоблин", "Водный Слизень", "Водный Крыс", "Водный Зараженный", "Водный Зомби"]
+            monter = ["Водный Паук", "Водный Гоблин", "Водный Слизень", "Водный Крыс", "Водный Зараженный",
+                      "Водный Зомби"]
             self.rand_monster = random.choice(monter)
         elif A == 4:
             monter = ["Огненный Паук", "Огненный Гоблин", "Огненный Слизень", "Огненный Голем"]
@@ -33,7 +33,5 @@ class Rand_monster(object):
             monter = ["Дракон"]
             self.rand_monster = random.choice(monter)
 
-
     def get_rand_monster(self):
         return self.rand_monster
-

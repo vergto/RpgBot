@@ -2,6 +2,7 @@ import telebot
 import sqlite3
 import bmenu
 from rand_nps import *
+from get_text_messages import *
 
 # Создаем базу данных
 users = sqlite3.connect("users.db")
@@ -146,15 +147,16 @@ def users_up_stats_inc(message):
             bot.callback_query_handler(bmenu.rearwards(message))
     cur.close()
 
+
 # Рандомный монстр в зависимости от локации
-#def rand_battle_monster(message):
+# def rand_battle_monster(message):
 #    users = sqlite3.connect("users.db")
 #    with users:
 #        cur = users.cursor()
- #       cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
- #       rows = cur.fetchall()
+#       cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
+#       rows = cur.fetchall()
 #        R = Rand_monster(rows[0][13])
-  #  return R.get_rand_monster()
+#  return R.get_rand_monster()
 
 
 # процесс повышения уровня персонажа
@@ -166,7 +168,8 @@ def lvl_up_hero(fight_logs_battle, monster_lvl, message):
         rows = cur.fetchall()
         experience_lvl = round((monster_lvl - rows[0][8] + 1) + (rows[0][10] / 100 * random.randint(3, 5)))
         fight_logs_battle = fight_logs_battle + "\nполучено опыта: " + str(experience_lvl)
-        cur.execute("UPDATE Users SET LVL_OP = LVL_OP+" + str(experience_lvl) + " WHERE  Id=" + str(message.from_user.id))
+        cur.execute(
+            "UPDATE Users SET LVL_OP = LVL_OP+" + str(experience_lvl) + " WHERE  Id=" + str(message.from_user.id))
         lvl_up_flag = 0
         if (rows[0][9] + experience_lvl) >= rows[0][10]:
             cur.execute(
@@ -206,7 +209,8 @@ def fight_battle_monster(fight_logs_battle, type_monster_battle, message):
         monster_hp = monster_hp + 20000
     hero_hp = rows[0][11]
     first_hit = round((rows[0][3] + rows[0][4] + rows[0][6]) / 3) - 1
-    fight_logs_battle = fight_logs_battle + str(rows[0][1]) + ": " + str(hero_hp) + "❤ / " + str(type_monster_battle) + " " \
+    fight_logs_battle = fight_logs_battle + str(rows[0][1]) + ": " + str(hero_hp) + "❤ / " + str(
+        type_monster_battle) + " " \
                         + str(monster_lvl) + " уровня: " + str(monster_hp) + "❤ \n\n"
     if first_hit > monster_lvl:
         flagg = 1
@@ -221,7 +225,7 @@ def fight_battle_monster(fight_logs_battle, type_monster_battle, message):
             flagg = 0
             monster_hp = monster_hp - hero_dmg
             fight_logs_battle = fight_logs_battle + str(rows[0][1]) + " ⚔ " + str(type_monster_battle) \
-                    + " нанося " + str(hero_dmg) + " урона\n❤ у монстра осталось " + str(monster_hp) + "\n"
+                                + " нанося " + str(hero_dmg) + " урона\n❤ у монстра осталось " + str(monster_hp) + "\n"
         elif flagg == 0:
             flagg = 1
             hero_hp = hero_hp - monster_dmg
@@ -258,46 +262,6 @@ def karta(message):
     bot.send_photo(message.from_user.id, photo=open('Map.jpg', 'rb'))
 
 
-# реакция бота на текс путем проверки полученного сообщения
-@bot.message_handler(content_types=['text'])
-def get_text_messages(message):
-    if message.text == "Привет" or message.text == "привет":
-        users = sqlite3.connect("users.db")
-        with users:
-            cur = users.cursor()
-            cur.execute("SELECT * FROM Users WHERE Id=" + str(message.from_user.id))
-            rows = cur.fetchall()
-        cur.close()
-        if not rows:
-            bot.send_message(message.from_user.id, "Привет, вижу ты здесь впервые, нажми /start")
-        else:
-            bot.send_message(message.from_user.id, "Привет, " + str(rows[0][1]) + ", чем я могу тебе помочь?")
-    elif message.text == "Пользователи" or message.text == "пользователи":
-        bot.callback_query_handler(users_list(message))
-    elif message.text == "Профиль" or message.text == "профиль" or message.text == "Профиль 🎫":
-        bot.callback_query_handler(bmenu.users_window(message))
-    elif message.text == "Прокачать 🏅" or message.text == "Прокачать" or message.text == "прокачать":
-        bot.callback_query_handler(users_up_stats(message))
-    elif message.text == "Назад" or message.text == "назад" or message.text == "Не путешествовать":
-        bot.callback_query_handler(bmenu.rearwards(message))
-    elif message.text == "💪 Сила" or message.text == "Сила":
-        bot.callback_query_handler(users_up_stats_inc(message))
-    elif message.text == "📚 Интелект" or message.text == "Интелект":
-        bot.callback_query_handler(users_up_stats_inc(message))
-    elif message.text == "🤸 ‍Ловкость" or message.text == "‍Ловкость":
-        bot.callback_query_handler(users_up_stats_inc(message))
-    elif message.text == "🧘 ‍Выносливость" or message.text == "‍Выносливость":
-        bot.callback_query_handler(users_up_stats_inc(message))
-    elif message.text == "🎯 Удача" or message.text == "Удача":
-        bot.callback_query_handler(users_up_stats_inc(message))
-    elif message.text == "Бой ⚔" or message.text == "Бой":
-        bot.callback_query_handler(battle(message))
-    elif message.text == "Путешествовать" or message.text == "путешествовать":
-        bot.callback_query_handler(bmenu.go_throw_map(message))
-    elif message.text == "Деревня" or message.text == "Забытые руины" or message.text == "Озеро чудовищ" \
-            or message.text == "Огненный грот" \
-            or message.text == "Вернуться в город" or message.text == "Заброшенная башня" or message.text == "Оазис" \
-            or message.text == "Логово Кракена" or message.text == "Логово Дракона":
-        bot.callback_query_handler(bmenu.go_map(message))
+G = Get_text(massege)
 
 bot.polling()
