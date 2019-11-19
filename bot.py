@@ -260,6 +260,7 @@ def battle(message):
 def karta(message):
     bot.send_photo(message.from_user.id, photo=open('Map.jpg', 'rb'))
 
+
 # реакция бота на текс путем проверки полученного сообщения
 @bot.message_handler(content_types=['text'])
 def get_text_massage(message):
@@ -294,7 +295,7 @@ def get_text_massage(message):
         bot.callback_query_handler(users_up_stats_inc(message))
     elif message.text == "Бой ⚔" or message.text == "Бой":
         bot.callback_query_handler(battle(message))
-    elif message.text == "Путешествовать 🧗" or message.text == "путешествовать ":
+    elif message.text == "Путешествовать 🧗" or message.text == "путешествовать" or message.text == "Путешествовать":
         bot.callback_query_handler(bmenu.go_throw_map(message))
     elif message.text == "Деревня" or message.text == "Забытые руины" or message.text == "Озеро чудовищ" \
             or message.text == "Огненный грот" \
@@ -307,5 +308,6 @@ def get_text_massage(message):
 def text_helper(message):
     bot.send_message(message.from_user.id, "Цель игры стать сильнее, в ней нет конца и вы можете бесконечно "
                                            "наращивать свою силу, накопив достаточно силы ")
+
 
 bot.polling()
