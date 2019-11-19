@@ -2,7 +2,6 @@ import telebot
 import sqlite3
 import bmenu
 from rand_nps import *
-from get_text_messages import *
 
 # Создаем базу данных
 users = sqlite3.connect("users.db")
