@@ -37,7 +37,7 @@ def start_message(message):
     start = telebot.types.ReplyKeyboardMarkup(True, False)
     itembtna = telebot.types.KeyboardButton('Бой ⚔')
     itembtnb = telebot.types.KeyboardButton('Профиль 🎫')
-    itembtnd = telebot.types.KeyboardButton('Путешествовать')
+    itembtnd = telebot.types.KeyboardButton('Путешествовать 🧗‍')
     itembtne = telebot.types.KeyboardButton('Прокачать 🏅')
     start.row(itembtna, itembtnb)
     start.row(itembtnd, itembtne)
