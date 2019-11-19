@@ -7,8 +7,7 @@ bot = telebot.TeleBot('952476420:AAHOxzyLhPslDRyRMaxGY2YTZN-ZlGrpwIU')
 
 
 class Get_text(object):
-    # реакция бота на текс путем проверки полученного сообщения
-    @bot.message_handler(content_types=['text'])
+
     def __init__(self, message):
         if message.text == "Привет" or message.text == "привет":
             users = sqlite3.connect("users.db")

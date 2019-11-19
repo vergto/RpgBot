@@ -261,7 +261,10 @@ def battle(message):
 def karta(message):
     bot.send_photo(message.from_user.id, photo=open('Map.jpg', 'rb'))
 
+# реакция бота на текс путем проверки полученного сообщения
+@bot.message_handler(content_types=['text'])
+def text_take(message):
+    T = Get_text(message)
 
-G = Get_text(massege)
 
 bot.polling()
