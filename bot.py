@@ -294,7 +294,7 @@ def get_text_massage(message):
         bot.callback_query_handler(users_up_stats_inc(message))
     elif message.text == "Бой ⚔" or message.text == "Бой":
         bot.callback_query_handler(battle(message))
-    elif message.text == "Путешествовать" or message.text == "путешествовать":
+    elif message.text == "Путешествовать 🧗" or message.text == "путешествовать ":
         bot.callback_query_handler(bmenu.go_throw_map(message))
     elif message.text == "Деревня" or message.text == "Забытые руины" or message.text == "Озеро чудовищ" \
             or message.text == "Огненный грот" \
@@ -302,5 +302,10 @@ def get_text_massage(message):
             or message.text == "Логово Кракена" or message.text == "Логово Дракона":
         bot.callback_query_handler(bmenu.go_map(message))
 
+
+@bot.message_handler(commands=['map'])
+def text_helper(message):
+    bot.send_message(message.from_user.id, "Цель игры стать сильнее, в ней нет конца и вы можете бесконечно "
+                                           "наращивать свою силу, накопив достаточно силы ")
 
 bot.polling()
