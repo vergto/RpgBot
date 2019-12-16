@@ -8,7 +8,7 @@ def rearwards(message):
     rearw = telebot.types.ReplyKeyboardMarkup(True, False)
     itembtna = telebot.types.KeyboardButton('Бой ⚔')
     itembtnb = telebot.types.KeyboardButton('Профиль 🎫')
-    itembtnd = telebot.types.KeyboardButton('Путешествовать 🧗‍')
+    itembtnd = telebot.types.KeyboardButton('Путешествовать‍')
     itembtne = telebot.types.KeyboardButton('Прокачать 🏅')
     rearw.row(itembtna, itembtnb)
     rearw.row(itembtnd, itembtne)
