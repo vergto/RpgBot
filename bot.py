@@ -295,7 +295,7 @@ def get_text_massage(message):
         bot.callback_query_handler(users_up_stats_inc(message))
     elif message.text == "Бой ⚔" or message.text == "Бой":
         bot.callback_query_handler(battle(message))
-    elif message.text == "Путешествовать 🧗" or message.text == "путешествовать" or message.text == 'Путешествовать':
+    elif message.text == "Путешествовать 🧗" or message.textlower() == "путешествовать" or message.text == "Путешествовать":
         bot.callback_query_handler(bmenu.go_throw_map(message))
     elif message.text == "Деревня" or message.text == "Забытые руины" or message.text == "Озеро чудовищ" \
             or message.text == "Огненный грот" \
