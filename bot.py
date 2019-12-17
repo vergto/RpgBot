@@ -279,7 +279,7 @@ def get_text_massage(message):
         bot.callback_query_handler(users_list(message))
     elif message.text == "Профиль" or message.text == "профиль" or message.text == "Профиль 🎫":
         bot.callback_query_handler(bmenu.users_window(message))
-        elif message.text == "Прокачать 🏅" or message.text == "Прокачать" or message.text == "прокачать":
+    elif message.text == "Прокачать 🏅" or message.text == "Прокачать" or message.text == "прокачать":
         bot.callback_query_handler(users_up_stats(message))
     elif message.text == "Назад" or message.text == "назад" or message.text == "Не путешествовать":
         bot.callback_query_handler(bmenu.rearwards(message))
