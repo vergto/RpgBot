@@ -279,7 +279,7 @@ def get_text_massage(message):
         bot.callback_query_handler(users_list(message))
     elif message.text == "Профиль" or message.text == "профиль" or message.text == "Профиль 🎫":
         bot.callback_query_handler(bmenu.users_window(message))
-    elif message.text == "Прокачать 🏅" or message.text == "Прокачать" or message.text == "прокачать":
+        elif message.text == "Прокачать 🏅" or message.text == "Прокачать" or message.text == "прокачать":
         bot.callback_query_handler(users_up_stats(message))
     elif message.text == "Назад" or message.text == "назад" or message.text == "Не путешествовать":
         bot.callback_query_handler(bmenu.rearwards(message))
@@ -304,7 +304,7 @@ def get_text_massage(message):
         bot.callback_query_handler(bmenu.go_map(message))
 
 
-@bot.message_handler(commands=['map'])
+@bot.message_handler(commands=['help'])
 def text_helper(message):
     bot.send_message(message.from_user.id, "Цель игры стать сильнее, в ней нет конца и вы можете бесконечно "
                                            "наращивать свою силу, накопив достаточно силы ")
