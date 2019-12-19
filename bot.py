@@ -302,6 +302,8 @@ def get_text_massage(message):
             or message.text == "Вернуться в город" or message.text == "Заброшенная башня" or message.text == "Оазис" \
             or message.text == "Логово Кракена" or message.text == "Логово Дракона":
         bot.callback_query_handler(bmenu.go_map(message))
+    else:
+        bot.send_message(message.from_user.id, "Привет, введеная тобой команда не найдена.")
 
 
 @bot.message_handler(commands=['help'])
